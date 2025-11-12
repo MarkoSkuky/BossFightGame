@@ -1,13 +1,38 @@
+import fri.shapesge.Obrazok;
 import fri.shapesge.Stvorec;
 
 public class Strela {
-  private int velkostStrely;
+  //13x20
+  private final int rychlost = 4;
   private int poziciaX;
   private int poziciaY;
-  private Stvorec strela;
+  private Obrazok obrazok;
+  private boolean jeAktivna;
 
-  public Strela(int velkostStrely, int poziciaX, int poziciaY) {
-    this.strela = new Stvorec(poziciaX, poziciaY);
-    this.strela.zmenStranu(velkostStrely);
+  public Strela(int poziciaX, int poziciaY) {
+    this.obrazok = new Obrazok("assets/strela.png", poziciaX, poziciaY);
+    this.poziciaX = poziciaX;
+    this.poziciaY = poziciaY;
+    this.obrazok.zobraz();
+    this.jeAktivna = true;
+  }
+
+  public void tik() {
+    if (this.jeAktivna) {
+      this.poziciaY -= rychlost;
+      this.aktualizujPolohu();
+    }
+    if (this.poziciaY <= 0) {
+      this.jeAktivna = false;
+      this.obrazok.skry();
+    }
+  }
+
+  private void aktualizujPolohu() {
+    obrazok.zmenPolohu(this.poziciaX, this.poziciaY);
+  }
+
+  public boolean getJeAktivna() {
+    return this.jeAktivna;
   }
 }

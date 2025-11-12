@@ -2,6 +2,8 @@ import fri.shapesge.Obrazok;
 
 public class Hrac {
 
+  private ManazerStriel manazerStriel;
+
   private int polohaX;
   private int polohaY;
   private final int sirkaHraca = 90;
@@ -15,7 +17,8 @@ public class Hrac {
   private boolean ideHore;
   private boolean ideDole;
 
-  public Hrac(int polohaX, int polohaY) {
+  public Hrac(int polohaX, int polohaY, ManazerStriel manazerStriel) {
+    this.manazerStriel = manazerStriel;
     this.oblastHraca = new OblastHraca();
     this.obrazokHraca = new Obrazok("assets/hracPredok.png", polohaX, polohaY);
     this.obrazokHraca.zobraz();
@@ -53,6 +56,11 @@ public class Hrac {
 
   public void uvolniDole() {
     this.ideDole = false;
+  }
+
+  public void aktivuj() {
+    Strela strela = new Strela(this.polohaX + this.sirkaHraca / 2 - 6, this.polohaY);
+    this.manazerStriel.pridajStrelu(strela);
   }
 
   public void tik() {
