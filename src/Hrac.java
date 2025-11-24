@@ -3,12 +3,11 @@ import fri.shapesge.Obrazok;
 public class Hrac {
 
   private ManazerStriel manazerStriel;
-
+  private Hra hra;
   private int polohaX;
   private int polohaY;
   private final int sirkaHraca = 90;
   private final int vyskaHraca = 90;
-
   private Obrazok obrazokHraca; //velkost obrazku je 90x90px
   private final int rychlost = 8;
   private OblastHraca oblastHraca;
@@ -17,7 +16,8 @@ public class Hrac {
   private boolean ideHore;
   private boolean ideDole;
 
-  public Hrac(int polohaX, int polohaY, ManazerStriel manazerStriel) {
+  public Hrac(int polohaX, int polohaY, ManazerStriel manazerStriel, Hra hra) {
+    this.hra = hra;
     this.manazerStriel = manazerStriel;
     this.oblastHraca = new OblastHraca();
     this.obrazokHraca = new Obrazok("assets/hracPredok.png", polohaX, polohaY);
