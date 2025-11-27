@@ -10,7 +10,6 @@ public class Hrac {
   private final int vyskaHraca = 90;
   private Obrazok obrazokHraca; //velkost obrazku je 90x90px
   private final int rychlost = 8;
-  private OblastHraca oblastHraca;
   private boolean ideVlavo;
   private boolean ideVpravo;
   private boolean ideHore;
@@ -19,7 +18,6 @@ public class Hrac {
   public Hrac(int polohaX, int polohaY, ManazerStriel manazerStriel, Hra hra) {
     this.hra = hra;
     this.manazerStriel = manazerStriel;
-    this.oblastHraca = new OblastHraca();
     this.obrazokHraca = new Obrazok("assets/hracPredok.png", polohaX, polohaY);
     this.obrazokHraca.zobraz();
     this.polohaX = polohaX;
@@ -59,31 +57,36 @@ public class Hrac {
   }
 
   public void aktivuj() {
-    Strela strela = new Strela(this.polohaX + this.sirkaHraca / 2 - 6, this.polohaY);
+    Strela strela = new Strela(this.polohaX + this.sirkaHraca / 2 - 6, this.polohaY, true);
     this.manazerStriel.pridajStrelu(strela);
   }
 
+  public void uberZivoty() {
+
+  }
+
   public void tik() {
+    OblastPohybu oblastPohybu = new OblastPohybu(0, 1200, 500, 800);
     if (this.ideVlavo) {
-      if (this.oblastHraca.getLavyOkraj() < this.getLavyHitbox() - 4) {
+      if (oblastPohybu.getLavyOkraj() < this.getLavyHitbox() - 4) {
         this.polohaX -= rychlost;
         zmenPolohu();
       }
     }
     if (this.ideVpravo) {
-      if (this.oblastHraca.getPravyOkraj() > this.getPravyHitbox() + 10) {
+      if (oblastPohybu.getPravyOkraj() > this.getPravyHitbox() + 10) {
         this.polohaX += rychlost;
         zmenPolohu();
       }
     }
     if (this.ideHore) {
-      if (this.oblastHraca.getHornyOkraj() < this.getHornyHitbox()) {
+      if (oblastPohybu.getHornyOkraj() < this.getHornyHitbox()) {
         this.polohaY -= rychlost;
         zmenPolohu();
       }
     }
     if (this.ideDole) {
-      if (this.oblastHraca.getDolnyOkraj() > this.getDolnyHitbox()) {
+      if (oblastPohybu.getDolnyOkraj() > this.getDolnyHitbox()) {
         this.polohaY += rychlost;
         zmenPolohu();
       }

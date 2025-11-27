@@ -9,11 +9,11 @@ public class Boss {
   private Obrazok obrazokBossa;
   private int rychlost = 8;
   private Hrac hrac;
-  private OblastBossa oblastBossa;
   private ManazerStriel manazerStriel;
   private BossHpBar bossHpBar;
   private int hp;
   private int smerPohybu;
+  private int cooldown;
 
   public Boss(int polohaX, int polohaY, ManazerStriel manazerStriel, BossHpBar bossHpBar, Hra hra, Hrac hrac) {
     this.hra = hra;
@@ -23,17 +23,38 @@ public class Boss {
     this.bossHpBar = bossHpBar;
     this.obrazokBossa = new Obrazok("assets/boss1.png", polohaX, polohaY);
     this.obrazokBossa.zobraz();
-    this.oblastBossa = new OblastBossa();
     this.hrac = hrac;
     this.hp = 1000;
     this.smerPohybu = 1;
+    this.cooldown = 0;
   }
 
   public void tik() {
-      if (this.getPravyHitbox() < this.oblastBossa.getPravyOkraj()) {
-        this.polohaX += this.rychlost * smerPohybu;
-        this.zmenPolohu();
+    this.pohybBossaPrvaFaza();
+    if (this.cooldown == 0 && this.vidiHraca()) {
+      this.vystrel();
+      this.cooldown = 4;
+    }
+    if (this.cooldown != 0) {
+      this.cooldown--;
+    }
+  }
+
+  private void pohybBossaPrvaFaza() {
+    OblastPohybu oblastPohybu = new OblastPohybu(0, 1200, 0, 500);
+    if (this.smerPohybu == 1) {
+      this.polohaX += this.rychlost * this.smerPohybu;
+      this.zmenPolohu();
+      if (this.getPravyHitbox() >= oblastPohybu.getPravyOkraj()) {
+        this.smerPohybu *= -1;
       }
+    } else {
+      this.polohaX += this.rychlost * this.smerPohybu;
+      this.zmenPolohu();
+      if (this.getLavyHitbox() <= oblastPohybu.getLavyOkraj()) {
+        this.smerPohybu *= -1;
+      }
+    }
   }
 
   public void utok1() {
@@ -45,7 +66,10 @@ public class Boss {
   }
 
   public void vystrel() {
-
+    if (this.vidiHraca()) {
+      Strela strela = new Strela(this.polohaX + 55, this.polohaY, false);
+      this.manazerStriel.pridajStrelu(strela);
+    }
   }
 
   public void uberZivoty() {
