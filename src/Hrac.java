@@ -15,9 +15,8 @@ public class Hrac {
     private boolean ideHore;
     private boolean ideDole;
 
-    public Hrac(int polohaX, int polohaY, ManazerStriel manazerStriel, Hra hra) {
+    public Hrac(int polohaX, int polohaY, Hra hra) {
         this.hra = hra;
-        this.manazerStriel = manazerStriel;
         this.obrazokHraca = new Obrazok("assets/hracPredok.png", polohaX, polohaY);
         this.obrazokHraca.zobraz();
         this.polohaX = polohaX;
@@ -111,6 +110,10 @@ public class Hrac {
 
     private void zmenPolohu() {
         this.obrazokHraca.zmenPolohu(this.polohaX, this.polohaY);
+    }
+
+    public void setManazerStriel(ManazerStriel manazerStriel) {
+        this.manazerStriel = manazerStriel;
     }
 
 }

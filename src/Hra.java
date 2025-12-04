@@ -12,10 +12,12 @@ public class Hra {
 
     public Hra() {
         this.manazer = new Manazer();
-        this.manazerStriel = new ManazerStriel(this.hrac, this.boss);
         Game.getGame();
-        this.hrac = new Hrac(500, 700, this.manazerStriel, this);
-        this.boss = new Boss(500, 200, this.manazerStriel, this.bossHpBar, this, this.hrac);
+        this.hrac = new Hrac(500, 700, this);
+        this.boss = new Boss(500, 200, this.bossHpBar, this, this.hrac);
+        this.manazerStriel = new ManazerStriel(this.hrac, this.boss);
+        this.boss.setManazerStriel(this.manazerStriel);
+        this.hrac.setManazerStriel(this.manazerStriel);
         this.manazer.spravujObjekt(this.hrac);
         this.manazer.spravujObjekt(this.boss);
         this.manazer.spravujObjekt(this.manazerStriel);

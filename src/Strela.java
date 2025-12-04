@@ -6,8 +6,8 @@ public class Strela {
     private int poziciaX;
     private int poziciaY;
     private Obrazok obrazok;
-    private boolean jeAktivna;
-    private boolean jeHracova;
+    private boolean aktivna;
+    private boolean hracova;
 
 
     public Strela(int poziciaX, int poziciaY, boolean jeHracova) {
@@ -15,12 +15,12 @@ public class Strela {
         this.poziciaX = poziciaX;
         this.poziciaY = poziciaY;
         this.obrazok.zobraz();
-        this.jeAktivna = true;
-        this.jeHracova = jeHracova;
+        this.aktivna = true;
+        this.hracova = jeHracova;
     }
 
     public void tik() {
-        if (this.jeHracova) {
+        if (this.hracova) {
             this.hracovaStrela();
         } else {
             this.bossovaStrela();
@@ -28,23 +28,23 @@ public class Strela {
     }
 
     private void hracovaStrela() {
-        if (this.jeAktivna) {
+        if (this.aktivna) {
             this.poziciaY -= this.rychlost;
             this.aktualizujPolohu();
         }
         if (this.poziciaY <= 0) {
-            this.jeAktivna = false;
+            this.aktivna = false;
             this.obrazok.skry();
         }
     }
 
     private void bossovaStrela() {
-        if (this.jeAktivna) {
+        if (this.aktivna) {
             this.poziciaY += this.rychlost;
             this.aktualizujPolohu();
         }
         if (this.poziciaY >= 800) {
-            this.jeAktivna = false;
+            this.aktivna = false;
             this.obrazok.skry();
         }
     }
@@ -57,19 +57,28 @@ public class Strela {
         this.obrazok.zmenPolohu(this.poziciaX, this.poziciaY);
     }
 
-    public boolean getJeAktivna() {
-        return this.jeAktivna;
+    public boolean jeAktivna() {
+        return this.aktivna;
     }
 
-    public int getPoziciaX() {
-        return this.poziciaX;
+    public int getDolnyHitbox() {
+        return this.poziciaY + 20;
     }
 
-    public int getPoziciaY() {
+    public int getHornyHitbox() {
         return this.poziciaY;
     }
 
-    public boolean getJeHracova() {
-        return this.jeHracova;
+    public void setAktivna(boolean aktivna) {
+        this.aktivna = aktivna;
+    }
+
+    //vrati priblizne stred strely
+    public int getPoziciaX() {
+        return this.poziciaX + 6;
+    }
+
+    public boolean jeHracova() {
+        return this.hracova;
     }
 }

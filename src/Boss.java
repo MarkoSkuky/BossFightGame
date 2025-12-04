@@ -15,11 +15,10 @@ public class Boss {
     private int smerPohybu;
     private int cooldown;
 
-    public Boss(int polohaX, int polohaY, ManazerStriel manazerStriel, BossHpBar bossHpBar, Hra hra, Hrac hrac) {
+    public Boss(int polohaX, int polohaY, BossHpBar bossHpBar, Hra hra, Hrac hrac) {
         this.hra = hra;
         this.polohaX = polohaX;
         this.polohaY = polohaY;
-        this.manazerStriel = manazerStriel;
         this.bossHpBar = bossHpBar;
         this.obrazokBossa = new Obrazok("assets/boss1.png", polohaX, polohaY);
         this.obrazokBossa.zobraz();
@@ -31,13 +30,6 @@ public class Boss {
 
     public void tik() {
         this.pohybBossaPrvaFaza();
-        if (this.cooldown == 0 && this.vidiHraca()) {
-            this.vystrel();
-            this.cooldown = 4;
-        }
-        if (this.cooldown != 0) {
-            this.cooldown--;
-        }
     }
 
     private void pohybBossaPrvaFaza() {
@@ -54,6 +46,13 @@ public class Boss {
             if (this.getLavyHitbox() <= oblastPohybu.getLavyOkraj()) {
                 this.smerPohybu *= -1;
             }
+        }
+        if (this.cooldown == 0 && this.vidiHraca()) {
+            this.vystrel();
+            this.cooldown = 4;
+        }
+        if (this.cooldown != 0) {
+            this.cooldown--;
         }
     }
 
@@ -101,6 +100,10 @@ public class Boss {
 
     public int getDolnyHitbox() {
         return this.polohaY + this.vyskaBossa;
+    }
+
+    public void setManazerStriel(ManazerStriel manazerStriel) {
+        this.manazerStriel = manazerStriel;
     }
 
 

@@ -15,7 +15,7 @@ public class ManazerStriel {
     }
 
     public void pridajStrelu(Strela strela) {
-        if (strela.getJeHracova()) {
+        if (strela.jeHracova()) {
             this.hracoveStrely.add(strela);
         } else {
             this.bossoveStrely.add(strela);
@@ -25,16 +25,24 @@ public class ManazerStriel {
     public void tikStrely() {
         for (Strela s : this.hracoveStrely) {
             s.tik();
+            this.koliziaHracovejStrely(s);
         }
-        this.hracoveStrely.removeIf(strela -> !strela.getJeAktivna());
+        this.hracoveStrely.removeIf(strela -> !strela.jeAktivna());
 
         for (Strela s : this.bossoveStrely) {
             s.tik();
         }
-        this.bossoveStrely.removeIf(strela -> !strela.getJeAktivna());
+        this.bossoveStrely.removeIf(strela -> !strela.jeAktivna());
     }
 
-    public void koliziaBossovejStrely() {
-
+    private void koliziaHracovejStrely(Strela strela) {
+        if (strela.jeHracova()
+            && strela.getPoziciaX() > this.boss.getLavyHitbox()
+            && strela.getPoziciaX() < this.boss.getPravyHitbox()
+            && strela.getHornyHitbox() < this.boss.getDolnyHitbox()
+            && strela.getDolnyHitbox() > this.boss.getHornyHitbox()) {
+            strela.setAktivna(false);
+            strela.skryObrazok();
+        }
     }
 }
