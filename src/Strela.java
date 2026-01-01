@@ -1,7 +1,6 @@
 import fri.shapesge.Obrazok;
 
 public class Strela {
-    //13x20 rozmer
     private final int rychlost = 4;
     private int poziciaX;
     private int poziciaY;

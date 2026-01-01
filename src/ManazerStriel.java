@@ -31,6 +31,7 @@ public class ManazerStriel {
 
         for (Strela s : this.bossoveStrely) {
             s.tik();
+            this.koliziaBossovejStrely(s);
         }
         this.bossoveStrely.removeIf(strela -> !strela.jeAktivna());
     }
@@ -43,6 +44,19 @@ public class ManazerStriel {
             && strela.getDolnyHitbox() > this.boss.getHornyHitbox()) {
             strela.setAktivna(false);
             strela.skryObrazok();
+            this.boss.uberZivoty();
+        }
+    }
+
+    private void koliziaBossovejStrely(Strela strela) {
+        if (!strela.jeHracova()
+            && strela.getPoziciaX() > this.hrac.getLavyHitbox()
+            && strela.getPoziciaX() < this.hrac.getPravyHitbox()
+            && strela.getHornyHitbox() < this.hrac.getDolnyHitbox()
+            && strela.getDolnyHitbox() > this.hrac.getHornyHitbox()) {
+            strela.setAktivna(false);
+            strela.skryObrazok();
+            this.hrac.uberZivoty();
         }
     }
 }
