@@ -27,13 +27,13 @@ public class ManazerStriel {
             s.tik();
             this.koliziaHracovejStrely(s);
         }
-        this.hracoveStrely.removeIf(strela -> !strela.jeAktivna());
+        this.hracoveStrely.removeIf(strela -> !strela.jeAktivna()); //tuto metodu som si nasiel na nete
 
         for (Strela s : this.bossoveStrely) {
             s.tik();
             this.koliziaBossovejStrely(s);
         }
-        this.bossoveStrely.removeIf(strela -> !strela.jeAktivna());
+        this.bossoveStrely.removeIf(strela -> !strela.jeAktivna()); //tuto metodu som si nasiel na nete
     }
 
     private void koliziaHracovejStrely(Strela strela) {
@@ -58,5 +58,15 @@ public class ManazerStriel {
             strela.skryObrazok();
             this.hrac.uberZivoty();
         }
+    }
+    public void restart() {
+        for (Strela s : this.hracoveStrely) {
+            s.skryObrazok();
+        }
+        for (Strela s : this.bossoveStrely) {
+            s.skryObrazok();
+        }
+        this.hracoveStrely.clear();
+        this.bossoveStrely.clear();
     }
 }

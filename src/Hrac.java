@@ -7,35 +7,40 @@ public class Hrac {
     private int polohaY;
     private final int sirkaHraca = 90;
     private final int vyskaHraca = 90;
-    private Obrazok obrazokHraca;
+    private final Obrazok obrazokHraca;
     private final int rychlost = 8;
     private boolean ideVlavo;
     private boolean ideVpravo;
     private boolean ideHore;
     private boolean ideDole;
-    private OblastPohybu oblastPohybu;
-    private HracHpBar hracHpBar;
+    private final OblastPohybu oblastPohybu;
+    private final HracHpBar hracHpBar;
     private int nesmrtelnostCooldown;
+    private int strelaCooldown;
     private boolean jeViditelny;
     private boolean dashuje;
     private int dashTimer;
     private int dashSmer;
     private boolean jeMrtvy;
 
-
-    public Hrac(int polohaX, int polohaY) {
-        this.obrazokHraca = new Obrazok("assets/hracPredok.png", polohaX, polohaY);
-        this.obrazokHraca.zobraz();
+    public Hrac() {
         this.jeViditelny = true;
-        this.polohaX = polohaX;
-        this.polohaY = polohaY;
+        this.polohaX = 550;
+        this.polohaY = 700;
+        this.obrazokHraca = new Obrazok("assets/hracPredok.png", this.polohaX, this.polohaY);
+        this.obrazokHraca.zobraz();
         this.oblastPohybu = new OblastPohybu(0, 1200, 500, 800);
         this.hracHpBar = new HracHpBar();
         this.nesmrtelnostCooldown = 0;
+        this.strelaCooldown = 0;
         this.dashuje = false;
         this.dashTimer = 0;
         this.dashSmer = 0;
         this.jeMrtvy = false;
+        this.obrazokHraca.zmenPolohu(this.polohaX, this.polohaY);
+        this.obrazokHraca.zobraz();
+        this.obrazokHraca.zmenObrazok("assets/hracPredok.png");
+        this.jeViditelny = true;
     }
 
     public void posunVpravo() {
@@ -71,26 +76,27 @@ public class Hrac {
     }
 
     public void aktivuj() {
-        Strela strela = new Strela(this.polohaX + this.sirkaHraca / 2 - 6, this.polohaY, true);
-        this.manazerStriel.pridajStrelu(strela);
+        if (this.strelaCooldown <= 0) {
+            Strela strela = new Strela(this.polohaX + this.sirkaHraca / 2 - 6, this.polohaY, true, TypStrely.KLASICKA);
+            this.manazerStriel.pridajStrelu(strela);
+            this.strelaCooldown = 60;
+        }
     }
 
     public void dash() {
-        if (this.dashuje) {
-            return;
-        }
+        if (!this.dashuje) {
+            if (this.ideVpravo) {
+                this.dashSmer = 1;
+            } else if (this.ideVlavo) {
+                this.dashSmer = -1;
+            } else {
+                return;
+            }
 
-        if (this.ideVpravo) {
-            this.dashSmer = 1;
-        } else if (this.ideVlavo) {
-            this.dashSmer = -1;
-        } else {
-            return;
+            this.dashuje = true;
+            this.dashTimer = 5;
+            this.obrazokHraca.zmenObrazok("assets/hracDash.png");
         }
-
-        this.dashuje = true;
-        this.dashTimer = 5;
-        this.obrazokHraca.zmenObrazok("assets/hracDash.png");
     }
 
     public void uberZivoty() {
@@ -132,7 +138,6 @@ public class Hrac {
 
             if (novyX >= this.oblastPohybu.getLavyOkraj()
                 && novyX + this.sirkaHraca <= this.oblastPohybu.getPravyOkraj()) {
-
                 this.polohaX = novyX;
                 this.zmenPolohu();
                 this.dashTimer--;
@@ -145,8 +150,6 @@ public class Hrac {
                 this.dashSmer = 0;
                 this.obrazokHraca.zmenObrazok("assets/hracPredok.png");
             }
-
-            return;
         }
 
         if (this.ideVlavo) {
@@ -172,6 +175,9 @@ public class Hrac {
                 this.polohaY += this.rychlost;
                 this.zmenPolohu();
             }
+        }
+        if (this.strelaCooldown > 0) {
+            this.strelaCooldown--;
         }
     }
 
@@ -201,6 +207,18 @@ public class Hrac {
 
     public void setManazerStriel(ManazerStriel manazerStriel) {
         this.manazerStriel = manazerStriel;
+    }
+
+    public void restart() {
+        this.hracHpBar.restart();
+        this.polohaX = 550;
+        this.polohaY = 700;
+        this.obrazokHraca.zmenPolohu(this.polohaX, this.polohaY);
+        this.nesmrtelnostCooldown = 0;
+        this.dashuje = false;
+        this.dashTimer = 0;
+        this.dashSmer = 0;
+        this.jeMrtvy = false;
     }
 
 }

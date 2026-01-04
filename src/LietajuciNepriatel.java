@@ -3,18 +3,19 @@ import fri.shapesge.Obrazok;
 import java.util.Random;
 
 public class LietajuciNepriatel {
-    private final int rychlost = 2;
+    private int rychlost;
     private int poziciaX;
     private int poziciaY;
     private Obrazok obrazok;
-    private int ciel;
+    private Hrac hrac;
     private boolean jeNadHracom;
     private boolean jeAktivny;
+    private boolean pada;
 
-    public LietajuciNepriatel(int ciel) {
+    public LietajuciNepriatel(Hrac hrac, int rychlost) {
         Random random = new Random();
         int nahodnaStrana = random.nextInt(2);
-        this.ciel = ciel;
+        this.hrac = hrac;
         this.jeAktivny = true;
         this.poziciaY = 250;
         if (nahodnaStrana == 0) {
@@ -25,6 +26,8 @@ public class LietajuciNepriatel {
         this.obrazok = new Obrazok("assets/vrtulnikLeti.png", this.poziciaX, this.poziciaY);
         this.obrazok.zobraz();
         this.jeNadHracom = false;
+        this.rychlost = rychlost;
+        this.pada = false;
     }
 
     public void tik() {
@@ -32,14 +35,19 @@ public class LietajuciNepriatel {
             this.najdiHraca();
         } else {
             this.padaj();
-            this.obrazok.zmenObrazok("assets/vrtulnikPada.png");
+            if (!this.pada) {
+                this.obrazok.zmenObrazok("assets/vrtulnikPada.png");
+                this.pada = true;
+            }
         }
     }
 
     private void najdiHraca() {
-        if (this.poziciaX < this.ciel) {
+        int cielX = this.hrac.getLavyHitbox();
+
+        if (this.poziciaX < cielX) {
             this.posunVpravo();
-        } else if (this.poziciaX > this.ciel) {
+        } else if (this.poziciaX > cielX + 10) {
             this.posunVlavo();
         } else {
             this.jeNadHracom = true;

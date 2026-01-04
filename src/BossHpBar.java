@@ -25,8 +25,8 @@ public class BossHpBar {
     }
 
     public void uberZivoty() {
-        this.hp -= 7;
-        if (this.hp < 0) {
+        this.hp -= 30;
+        if (this.hp <= 0) {
             this.hp = 0;
         }
         this.hpBar.zmenStrany(this.hp, 15);
@@ -34,5 +34,10 @@ public class BossHpBar {
 
     public int getHp() {
         return this.hp;
+    }
+
+    public void restart() {
+        this.hp = 800;
+        this.hpBar.zmenStrany(this.hp, 15);
     }
 }

@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class ManazerNepriatelov {
-    private Hrac hrac;
-    private ArrayList<LietajuciNepriatel> lietajuciNepriatelia;
+    private final Hrac hrac;
+    private final ArrayList<LietajuciNepriatel> lietajuciNepriatelia;
 
     public ManazerNepriatelov(Hrac hrac) {
         this.hrac = hrac;
@@ -14,11 +14,11 @@ public class ManazerNepriatelov {
             n.tik();
             this.koliziaNepriatelaSHracom(n);
         }
-        this.lietajuciNepriatelia.removeIf(lietajuciNepriatel -> !lietajuciNepriatel.getJeAktivny());
+        this.lietajuciNepriatelia.removeIf(lietajuciNepriatel -> !lietajuciNepriatel.getJeAktivny()); //tuto metodu som si nasiel na nete
     }
 
-    public void pridajNepriatela() {
-        this.lietajuciNepriatelia.add(new LietajuciNepriatel(this.hrac.getLavyHitbox()));
+    public void pridajNepriatela(int rychlostNepriatela) {
+        this.lietajuciNepriatelia.add(new LietajuciNepriatel(this.hrac, rychlostNepriatela));
     }
 
     private void koliziaNepriatelaSHracom(LietajuciNepriatel n) {
@@ -30,5 +30,12 @@ public class ManazerNepriatelov {
             n.skry();
             this.hrac.uberZivoty();
         }
+    }
+    public void restart() {
+        for (LietajuciNepriatel n : this.lietajuciNepriatelia) {
+            n.skry();
+        }
+
+        this.lietajuciNepriatelia.clear();
     }
 }

@@ -35,5 +35,17 @@ public class HracHpBar {
     public int getPocetZivotov() {
         return this.srdcia.size();
     }
+
+    public void restart() {
+        for (Obrazok o : this.srdcia) {
+            o.skry();
+        }
+        this.srdcia.clear();
+        for (int i = 0; i < 3; i++) {
+            Obrazok srdce = new Obrazok("assets/srdce.png", this.poziciaX + (i * 45), this.poziciaY);
+            srdce.zobraz();
+            this.srdcia.add(srdce);
+        }
+    }
 }
 

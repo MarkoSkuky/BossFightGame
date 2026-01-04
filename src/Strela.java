@@ -1,28 +1,43 @@
 import fri.shapesge.Obrazok;
 
 public class Strela {
-    private final int rychlost = 4;
     private int poziciaX;
     private int poziciaY;
     private Obrazok obrazok;
     private boolean aktivna;
     private boolean hracova;
+    private final int rychlost;
+    private TypStrely typStrely;
+    private int smerX;
+    private int presunX;
 
 
-    public Strela(int poziciaX, int poziciaY, boolean jeHracova) {
-        this.obrazok = new Obrazok("assets/strela.png", poziciaX, poziciaY);
+
+    public Strela(int poziciaX, int poziciaY, boolean jeHracova, TypStrely typStrely) {
+        if (typStrely == TypStrely.KLASICKA) {
+            this.obrazok = new Obrazok("assets/strela.png", poziciaX, poziciaY);
+            this.rychlost = 20;
+        } else {
+            this.obrazok = new Obrazok("assets/zigzagstrela.png", poziciaX, poziciaY);
+            this.rychlost = 6;
+        }
         this.poziciaX = poziciaX;
         this.poziciaY = poziciaY;
         this.obrazok.zobraz();
         this.aktivna = true;
         this.hracova = jeHracova;
+        this.typStrely = typStrely;
+        this.smerX = -1;
+        this.presunX = 0;
     }
 
     public void tik() {
         if (this.hracova) {
             this.hracovaStrela();
-        } else {
+        } else if (this.typStrely == TypStrely.KLASICKA) {
             this.bossovaStrela();
+        } else if (this.typStrely == TypStrely.ZIGZAG) {
+            this.bossovaZigZagStrela();
         }
     }
 
@@ -32,6 +47,23 @@ public class Strela {
             this.aktualizujPolohu();
         }
         if (this.poziciaY <= 0) {
+            this.aktivna = false;
+            this.obrazok.skry();
+        }
+    }
+
+    private void bossovaZigZagStrela() {
+        if (this.aktivna) {
+            this.poziciaY += this.rychlost;
+            this.poziciaX += this.smerX * this.rychlost;
+            this.presunX += this.rychlost;
+            if (this.presunX >= 150) {
+                this.smerX *= -1;
+                this.presunX = 0;
+            }
+            this.aktualizujPolohu();
+        }
+        if (this.poziciaY >= 800) {
             this.aktivna = false;
             this.obrazok.skry();
         }
@@ -72,7 +104,6 @@ public class Strela {
         this.aktivna = aktivna;
     }
 
-    //vrati priblizne stred strely
     public int getPoziciaX() {
         return this.poziciaX + 6;
     }

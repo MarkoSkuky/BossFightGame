@@ -7,21 +7,21 @@ public class Boss {
     private final int vyskaBossa = 110;
     private Obrazok obrazokBossa;
     private int rychlost = 8;
-    private Hrac hrac;
+    private final Hrac hrac;
     private ManazerStriel manazerStriel;
     private ManazerNepriatelov manazerNepriatelov;
-    private BossHpBar bossHpBar;
+    private final BossHpBar bossHpBar;
     private int smerPohybuHorizontal;
     private int smerPohybuVertical;
     private int cooldown;
     private int spawnCooldown;
-    private OblastPohybu oblastPohybu;
+    private final OblastPohybu oblastPohybu;
     private FazaBossa fazaBossa;
     private boolean jeMrtvy;
 
-    public Boss(int polohaX, int polohaY, Hrac hrac) {
-        this.polohaX = polohaX;
-        this.polohaY = polohaY;
+    public Boss(Hrac hrac) {
+        this.polohaX = 545;
+        this.polohaY = 200;
         this.hrac = hrac;
         this.smerPohybuHorizontal = 1;
         this.smerPohybuVertical = 1;
@@ -30,7 +30,7 @@ public class Boss {
         this.oblastPohybu = new OblastPohybu(0, 1200, 0, 500);
         this.bossHpBar = new BossHpBar();
         this.fazaBossa = FazaBossa.PRVA;
-        this.obrazokBossa = new Obrazok(this.fazaBossa.getObrazok(), polohaX, polohaY);
+        this.obrazokBossa = new Obrazok(this.fazaBossa.getObrazok(), this.polohaX, this.polohaY);
         this.obrazokBossa.zobraz();
         this.jeMrtvy = false;
     }
@@ -95,32 +95,31 @@ public class Boss {
         if (this.cooldown > 0) {
             this.cooldown--;
         }
-        this.obrazokBossa.zmenObrazok(this.fazaBossa.getObrazok());
 
         if (this.spawnCooldown == 0) {
-            this.manazerNepriatelov.pridajNepriatela();
+            this.manazerNepriatelov.pridajNepriatela(4);
             this.spawnCooldown = 200;
         } else {
             this.spawnCooldown--;
         }
-
     }
 
     private void pohybBossaTretiaFaza() {
-
-    }
-
-    public void utok1() {
-
-    }
-
-    public void utok2() {
-
+        this.pohybBossaPrvaFaza();
+        if (this.spawnCooldown == 0) {
+            this.manazerNepriatelov.pridajNepriatela(6);
+            this.spawnCooldown = 80;
+        } else {
+            this.spawnCooldown--;
+        }
     }
 
     public void vystrel() {
-        if (this.vidiHraca()) {
-            Strela strela = new Strela(this.polohaX + 55, this.polohaY, false);
+        if (this.vidiHraca() && this.fazaBossa != FazaBossa.TRETIA) {
+            Strela strela = new Strela(this.polohaX + 55, this.polohaY, false, TypStrely.KLASICKA);
+            this.manazerStriel.pridajStrelu(strela);
+        } else if (this.vidiHraca() && this.fazaBossa == FazaBossa.TRETIA) {
+            Strela strela = new Strela(this.polohaX + 55, this.polohaY, false, TypStrely.ZIGZAG);
             this.manazerStriel.pridajStrelu(strela);
         }
     }
@@ -138,18 +137,19 @@ public class Boss {
     }
 
     public boolean vidiHraca() {
-        if (this.polohaX + 15 > this.hrac.getLavyHitbox() && this.polohaX + 75 < this.hrac.getPravyHitbox()) {
-            return true;
-        }
-        return false;
+        return this.polohaX + 15 > this.hrac.getLavyHitbox() && this.polohaX + 75 < this.hrac.getPravyHitbox();
     }
 
     private void aktualizujFazu() {
         if (this.bossHpBar.getHp() <= 600 && this.bossHpBar.getHp() > 300 && this.fazaBossa != FazaBossa.DRUHA) {
             this.fazaBossa = FazaBossa.DRUHA;
+            this.obrazokBossa.zmenObrazok(this.fazaBossa.getObrazok());
         }
         if (this.bossHpBar.getHp() <= 300 && this.fazaBossa != FazaBossa.TRETIA) {
             this.fazaBossa = FazaBossa.TRETIA;
+            this.obrazokBossa.zmenObrazok(this.fazaBossa.getObrazok());
+            this.rychlost = 10;
+            this.polohaY = 80;
         }
     }
 
@@ -181,5 +181,18 @@ public class Boss {
         this.manazerNepriatelov = manazerNepriatelov;
     }
 
-
+    public void restart() {
+        this.bossHpBar.restart();
+        this.rychlost = 8;
+        this.polohaX = 545;
+        this.polohaY = 200;
+        this.smerPohybuHorizontal = 1;
+        this.smerPohybuVertical = 1;
+        this.cooldown = 60;
+        this.spawnCooldown = 0;
+        this.fazaBossa = FazaBossa.PRVA;
+        this.jeMrtvy = false;
+        this.obrazokBossa.zmenPolohu(this.polohaX, this.polohaY);
+        this.obrazokBossa.zmenObrazok("assets/boss1.png");
+    }
 }
