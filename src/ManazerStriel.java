@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * Trieda ManazerStriel zabezpecuje spravu hracovych a bossovych striel.
+ */
 public class ManazerStriel {
 
     private ArrayList<Strela> hracoveStrely;
@@ -7,6 +10,12 @@ public class ManazerStriel {
     private Boss boss;
     private Hrac hrac;
 
+    /**
+     * Vytvori manazer striel a referenciu na hraca a bossa.
+     *
+     * @param hrac referencia na hraca
+     * @param boss referencia na bossa
+     */
     public ManazerStriel(Hrac hrac, Boss boss) {
         this.hracoveStrely = new ArrayList<>();
         this.bossoveStrely = new ArrayList<>();
@@ -14,6 +23,11 @@ public class ManazerStriel {
         this.hrac = hrac;
     }
 
+    /**
+     * Prida novu strelu do zoznamu podla toho, ci patri hracovi alebo bossovi.
+     *
+     * @param strela strela, ktora sa ma pridat
+     */
     public void pridajStrelu(Strela strela) {
         if (strela.jeHracova()) {
             this.hracoveStrely.add(strela);
@@ -22,18 +36,21 @@ public class ManazerStriel {
         }
     }
 
+    /**
+     * Aktualizuje vsetky strely v hre, kontroluje kolizie s hracom a bossom a odstranuje neaktivne strely.
+     */
     public void tikStrely() {
         for (Strela s : this.hracoveStrely) {
             s.tik();
             this.koliziaHracovejStrely(s);
         }
-        this.hracoveStrely.removeIf(strela -> !strela.jeAktivna()); //tuto metodu som si nasiel na nete
+        this.hracoveStrely.removeIf(strela -> !strela.jeAktivna());
 
         for (Strela s : this.bossoveStrely) {
             s.tik();
             this.koliziaBossovejStrely(s);
         }
-        this.bossoveStrely.removeIf(strela -> !strela.jeAktivna()); //tuto metodu som si nasiel na nete
+        this.bossoveStrely.removeIf(strela -> !strela.jeAktivna());
     }
 
     private void koliziaHracovejStrely(Strela strela) {
@@ -59,6 +76,10 @@ public class ManazerStriel {
             this.hrac.uberZivoty();
         }
     }
+
+    /**
+     * Odstrani vsetky strely z hry a nastavi manazer do pociatocneho stavu.
+     */
     public void restart() {
         for (Strela s : this.hracoveStrely) {
             s.skryObrazok();

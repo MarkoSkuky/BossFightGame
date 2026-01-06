@@ -1,6 +1,10 @@
 import fri.shapesge.Manazer;
 import fri.shapesge.Obrazok;
 
+/**
+ * Hlavna trieda hry, ktora riadi cely priebeh a cyklus.
+ * Stara sa o herne stavy, spravu objektov, ovladanie menu a logiku hry.
+ */
 public class Hra {
     private final Hrac hrac;
     private final Manazer manazer;
@@ -16,6 +20,9 @@ public class Hra {
     private final Obrazok vyhra;
     private final Obrazok prehra;
 
+    /**
+     * Vytvori novu instanciu hry a inicializuje vsetky potrebne objekty a stavy.
+     */
     public Hra() {
         this.manazer = new Manazer();
         this.hrac = new Hrac();
@@ -44,6 +51,10 @@ public class Hra {
         this.zobrazMenu();
     }
 
+    /**
+     * Metoda, ktora sa vykonava pri kazdom hernom tiku.
+     * Aktualizuje pohyb hraca, bossa, striel a nepriatelov, kontroluje vyhru alebo prehru.
+     */
     public void gameTik() {
         if (this.stavHry == StavHry.BEZI) {
             this.hrac.tik();
@@ -58,6 +69,12 @@ public class Hra {
         }
     }
 
+    /**
+     * Na zaklade aktualneho stavu hry reaguje na klikanie na jednotlive tlacidla z rozhrania.
+     *
+     * @param x suradnica X kliku mysi
+     * @param y suradnica Y kliku mysi
+     */
     public void vyberSuradnice(int x, int y) {
         if (this.stavHry == StavHry.MENU) {
             if (x > 450 && x < 750 && y > 289 && y < 387) {
@@ -91,6 +108,10 @@ public class Hra {
         }
     }
 
+    /**
+     * Prepina hru medzi stavom BEZI a PAUZA.
+     * Zobrazuje alebo skryva pauzove menu.
+     */
     public void pauza() {
 
         if (this.stavHry == StavHry.BEZI) {

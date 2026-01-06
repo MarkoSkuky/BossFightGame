@@ -1,5 +1,8 @@
 import fri.shapesge.Obrazok;
 
+/**
+ * Trieda Hrac zabezpecuje pohyb hraca, dashovanie, strelbu.
+ */
 public class Hrac {
 
     private ManazerStriel manazerStriel;
@@ -23,6 +26,9 @@ public class Hrac {
     private int dashSmer;
     private boolean jeMrtvy;
 
+    /**
+     * Vytvori instanciu hraca a inicializuje pociatocne hodnoty a stavy.
+     */
     public Hrac() {
         this.jeViditelny = true;
         this.polohaX = 550;
@@ -43,38 +49,65 @@ public class Hrac {
         this.jeViditelny = true;
     }
 
+    /**
+     * Zacne pohyb hraca doprava.
+     */
     public void posunVpravo() {
         this.ideVpravo = true;
     }
 
+    /**
+     * Zacne pohyb hraca dolava;
+     */
     public void posunVlavo() {
         this.ideVlavo = true;
     }
 
+    /**
+     * Ukonci pohyb hraca doprava.
+     */
     public void uvolniVpravo() {
         this.ideVpravo = false;
     }
 
+    /**
+     * Ukonci pohyb hraca dolava.
+     */
     public void uvolniVlavo() {
         this.ideVlavo = false;
     }
 
+    /**
+     * Zacne pohyb hraca hore.
+     */
     public void posunHore() {
         this.ideHore = true;
     }
 
+    /**
+     * Zacne pohyb hraca dole.
+     */
     public void posunDole() {
         this.ideDole = true;
     }
 
+    /**
+     * Ukonci pohyb hraca hore.
+     */
     public void uvolniHore() {
         this.ideHore = false;
     }
 
+    /**
+     * Ukonci pohyb hraca dole.
+     */
     public void uvolniDole() {
         this.ideDole = false;
     }
 
+    /**
+     * Vystreli strelu ak uz nema cooldown na strielanie.
+     */
     public void aktivuj() {
         if (this.strelaCooldown <= 0) {
             Strela strela = new Strela(this.polohaX + this.sirkaHraca / 2 - 6, this.polohaY, true, TypStrely.KLASICKA);
@@ -83,6 +116,9 @@ public class Hrac {
         }
     }
 
+    /**
+     * aktivuje dash hraca do strany do ktorej sa prave pohybuje.
+     */
     public void dash() {
         if (!this.dashuje) {
             if (this.ideVpravo) {
@@ -99,6 +135,10 @@ public class Hrac {
         }
     }
 
+    /**
+     * Odcita hracovi jeden zivot a aktivuje kratku nesmrtelnost.
+     * Ak hrac uz nema ziadne zivoty, jeMrtvy = true.
+     */
     public void uberZivoty() {
         if (this.nesmrtelnostCooldown == 0) {
             this.hracHpBar.uberZivot();
@@ -130,6 +170,10 @@ public class Hrac {
         }
     }
 
+    /**
+     * Metoda, ktora sa vykonava pri kazdom hernom tiku.
+     * Stara sa o pohyb hraca, dash, cooldowny a vykreslovanie.
+     */
     public void tik() {
         this.spravHracaNesmrtelnym();
 
@@ -181,22 +225,47 @@ public class Hrac {
         }
     }
 
+    /**
+     * Zisti, ci je hrac mrtvy.
+     *
+     * @return true ak je hrac mrtvy, inak false
+     */
     public boolean getJeMrtvy() {
         return this.jeMrtvy;
     }
 
+    /**
+     * Vrati lavy hitbox hraca.
+     *
+     * @return X-ova suradnica laveho hitboxu
+     */
     public int getLavyHitbox() {
         return this.polohaX;
     }
 
+    /**
+     * Vrati pravy hitbox hraca.
+     *
+     * @return X-ova suradnica praveho hitboxu
+     */
     public int getPravyHitbox() {
         return this.polohaX + this.sirkaHraca;
     }
 
+    /**
+     * Vrati horny hitbox hraca.
+     *
+     * @return Y-ova suradnica horneho hitboxu
+     */
     public int getHornyHitbox() {
         return this.polohaY;
     }
 
+    /**
+     * Vrati dolny hitbox hraca.
+     *
+     * @return Y-ova suradnica dolneho hitboxu
+     */
     public int getDolnyHitbox() {
         return this.polohaY + this.vyskaHraca;
     }
@@ -205,10 +274,18 @@ public class Hrac {
         this.obrazokHraca.zmenPolohu(this.polohaX, this.polohaY);
     }
 
+    /**
+     * Nastavi hracovi manazera striel ktory spravuje hracove strely.
+     *
+     * @param manazerStriel manazer striel
+     */
     public void setManazerStriel(ManazerStriel manazerStriel) {
         this.manazerStriel = manazerStriel;
     }
 
+    /**
+     * Nastavi vsetky hodnoty a stavy hraca do pociatocneho stavu
+     */
     public void restart() {
         this.hracHpBar.restart();
         this.polohaX = 550;

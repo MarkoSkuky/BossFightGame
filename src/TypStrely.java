@@ -1,4 +1,15 @@
+/**
+ * Enum TypStrely urcuje typ strely v hre.
+ */
 public enum TypStrely {
+
+    /**
+     * Klasicka priama strela
+     */
     KLASICKA,
-    ZIGZAG;
+
+    /**
+     * Strela pohybujuca sa zo strany na stranu
+     */
+    ZIGZAG
 }

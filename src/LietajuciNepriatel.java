@@ -2,6 +2,9 @@ import fri.shapesge.Obrazok;
 
 import java.util.Random;
 
+/**
+ * Trieda reprezentuje lietajuceho nepriatela, ktory najde hraca a spadne nanho.
+ */
 public class LietajuciNepriatel {
     private int rychlost;
     private int poziciaX;
@@ -12,6 +15,12 @@ public class LietajuciNepriatel {
     private boolean jeAktivny;
     private boolean pada;
 
+    /**
+     * Vytvori noveho lietajuceho nepriatela na nahodnej strane obrazovky.
+     *
+     * @param hrac     referencia na hraca, ktoreho nepriatel prenasleduje
+     * @param rychlost rychlost pohybu nepriatela
+     */
     public LietajuciNepriatel(Hrac hrac, int rychlost) {
         Random random = new Random();
         int nahodnaStrana = random.nextInt(2);
@@ -30,6 +39,10 @@ public class LietajuciNepriatel {
         this.pada = false;
     }
 
+    /**
+     * Vykona spravanie nepriatela pri kazdom hernom tiku.
+     * Nepriatel sa najskor presuva nad hraca a potom na neho pada.
+     */
     public void tik() {
         if (!this.jeNadHracom) {
             this.najdiHraca();
@@ -74,27 +87,54 @@ public class LietajuciNepriatel {
         }
     }
 
-
+    /**
+     * Zisti, ci je nepriatel stale aktivny.
+     *
+     * @return true ak je nepriatel aktivny, inak false
+     */
     public boolean getJeAktivny() {
         return this.jeAktivny;
     }
 
+    /**
+     * Vrati lavy hitbox nepriatela.
+     *
+     * @return suradnica X laveho hitboxu
+     */
     public int getLavyHitbox() {
         return this.poziciaX;
     }
 
+    /**
+     * Vrati pravy hitbox nepriatela.
+     *
+     * @return suradnica X praveho hitboxu
+     */
     public int getPravyHitbox() {
         return this.poziciaX + 90;
     }
 
+    /**
+     * Vrati horny hitbox nepriatela.
+     *
+     * @return suradnica Y horneho hitboxu
+     */
     public int getHornyHitbox() {
         return this.poziciaY;
     }
 
+    /**
+     * Vrati dolny hitbox nepriatela.
+     *
+     * @return suradnica Y dolneho hitboxu
+     */
     public int getDolnyHitbox() {
         return this.poziciaY + 90;
     }
 
+    /**
+     * Skryje nepriatela a oznaci ho ako neaktivneho.
+     */
     public void skry() {
         this.obrazok.skry();
         this.jeAktivny = false;

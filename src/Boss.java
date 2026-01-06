@@ -1,5 +1,7 @@
 import fri.shapesge.Obrazok;
-
+/**
+ * Trieda boss zabezpecuje spravanie a vykreslovanie bossa
+ */
 public class Boss {
     private int polohaX;
     private int polohaY;
@@ -19,6 +21,11 @@ public class Boss {
     private FazaBossa fazaBossa;
     private boolean jeMrtvy;
 
+    /**
+     * Vytvori novy objekt bossa a inicializuje jeho pociatocnehodnoty a stavy.
+     *
+     * @param hrac referencia na hraca s ktorym boss bude interagovat
+     */
     public Boss(Hrac hrac) {
         this.polohaX = 545;
         this.polohaY = 200;
@@ -35,14 +42,20 @@ public class Boss {
         this.jeMrtvy = false;
     }
 
+    /**
+     * Vykona urcite kroky bossa po kazdom hernom tiku, na aktualnej fazy bossa
+     */
     public void tik() {
         switch (this.fazaBossa) {
-            case PRVA: this.pohybBossaPrvaFaza();
-            break;
-            case DRUHA: this.pohybBossaDruhaFaza();
-            break;
-            case TRETIA: this.pohybBossaTretiaFaza();
-            break;
+            case PRVA:
+                this.pohybBossaPrvaFaza();
+                break;
+            case DRUHA:
+                this.pohybBossaDruhaFaza();
+                break;
+            case TRETIA:
+                this.pohybBossaTretiaFaza();
+                break;
         }
     }
 
@@ -114,7 +127,7 @@ public class Boss {
         }
     }
 
-    public void vystrel() {
+    private void vystrel() {
         if (this.vidiHraca() && this.fazaBossa != FazaBossa.TRETIA) {
             Strela strela = new Strela(this.polohaX + 55, this.polohaY, false, TypStrely.KLASICKA);
             this.manazerStriel.pridajStrelu(strela);
@@ -124,6 +137,9 @@ public class Boss {
         }
     }
 
+    /**
+     * Odcita bossovi nejaky pocet zivotov a kontroluje ci zivoty nema na nule, ak ano, jeMrtvy = true
+     */
     public void uberZivoty() {
         this.bossHpBar.uberZivoty();
         this.aktualizujFazu();
@@ -136,7 +152,7 @@ public class Boss {
         this.obrazokBossa.zmenPolohu(this.polohaX, this.polohaY);
     }
 
-    public boolean vidiHraca() {
+    private boolean vidiHraca() {
         return this.polohaX + 15 > this.hrac.getLavyHitbox() && this.polohaX + 75 < this.hrac.getPravyHitbox();
     }
 
@@ -153,34 +169,72 @@ public class Boss {
         }
     }
 
+    /**
+     * Zisti ci je boss mrtvy
+     *
+     * @return true ak je boss mrtvu, inak false
+     */
     public boolean getJeMrtvy() {
         return this.jeMrtvy;
     }
 
+    /**
+     * Vrati lavy hitbox bossa
+     *
+     * @return aktualnu suradnicu X laveho hitboxu
+     */
     public int getLavyHitbox() {
         return this.polohaX;
     }
 
+    /**
+     * Vrati pravy hitbox bossa
+     *
+     * @return aktualnu suradnicu X praveho hitboxu
+     */
     public int getPravyHitbox() {
         return this.polohaX + this.sirkaBossa;
     }
 
+    /**
+     * Vrati horny hitbox bossa
+     *
+     * @return aktualnu suradnicu Y horneho hitboxu
+     */
     public int getHornyHitbox() {
         return this.polohaY;
     }
 
+    /**
+     * Vrati dolny hitbox bossa
+     *
+     * @return aktualnu suradnicu Y dolneho hitboxu
+     */
     public int getDolnyHitbox() {
         return this.polohaY + this.vyskaBossa;
     }
 
+    /**
+     * Nastavi manazer striel, ktory bude spravovat strely bossa.
+     *
+     * @param manazerStriel manazer striel
+     */
     public void setManazerStriel(ManazerStriel manazerStriel) {
         this.manazerStriel = manazerStriel;
     }
 
+    /**
+     * Nastavi manazer nepriatelov, ktory bude spravovat nepriatelov vytvorenych bossom.
+     *
+     * @param manazerNepriatelov manazer nepriatelov
+     */
     public void setManazerNepriatelov(ManazerNepriatelov manazerNepriatelov) {
         this.manazerNepriatelov = manazerNepriatelov;
     }
 
+    /**
+     * Nastavi vsetky hodnoty a stavy bossa do pociatocneho stavu
+     */
     public void restart() {
         this.bossHpBar.restart();
         this.rychlost = 8;
