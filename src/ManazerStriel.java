@@ -40,10 +40,10 @@ public class ManazerStriel {
      * Aktualizuje vsetky strely v hre, kontroluje kolizie s hracom a bossom a odstranuje neaktivne strely.
      */
     public void tikStrely() {
-        for (Strela s : this.hracoveStrely) {
-            s.tik();
-            this.koliziaHracovejStrely(s);
-        }
+        this.hracoveStrely.forEach(strela -> {
+            strela.tik();
+            this.koliziaHracovejStrely(strela);
+        });
         this.hracoveStrely.removeIf(strela -> !strela.jeAktivna());
 
         for (Strela s : this.bossoveStrely) {
