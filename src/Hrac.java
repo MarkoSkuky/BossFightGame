@@ -110,7 +110,7 @@ public class Hrac {
      */
     public void aktivuj() {
         if (this.strelaCooldown <= 0) {
-            Strela strela = new Strela(this.polohaX + this.sirkaHraca / 2 - 6, this.polohaY, true, TypStrely.KLASICKA);
+            Strela strela = new KlasickaStrela(this.polohaX + this.sirkaHraca / 2 - 6, this.polohaY, true);
             this.manazerStriel.pridajStrelu(strela);
             this.strelaCooldown = 60;
         }

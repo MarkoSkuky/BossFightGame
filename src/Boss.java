@@ -129,10 +129,10 @@ public class Boss {
 
     private void vystrel() {
         if (this.vidiHraca() && this.fazaBossa != FazaBossa.TRETIA) {
-            Strela strela = new Strela(this.polohaX + 55, this.polohaY, false, TypStrely.KLASICKA);
+            Strela strela = new KlasickaStrela(this.polohaX + 55, this.polohaY, false);
             this.manazerStriel.pridajStrelu(strela);
         } else if (this.vidiHraca() && this.fazaBossa == FazaBossa.TRETIA) {
-            Strela strela = new Strela(this.polohaX + 55, this.polohaY, false, TypStrely.ZIGZAG);
+            Strela strela = new ZigZagStrela(this.polohaX + 55, this.polohaY, false);
             this.manazerStriel.pridajStrelu(strela);
         }
     }
