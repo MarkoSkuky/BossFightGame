@@ -1,4 +1,4 @@
-public class ZigZagStrela extends Strela{
+public class ZigZagStrela extends Strela {
 
     /**
      * Vytvori novu strelu s danym typom, poziciou a vlastnikom.

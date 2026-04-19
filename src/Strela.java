@@ -13,6 +13,8 @@ public abstract class Strela {
     private final int rychlost;
     private int smerPohybuX;
     private int prejdenaVzdialenostX;
+    private int smerPohybuY;
+    private int prejdenaVzdialenostY;
 
     /**
      * Vytvori novu strelu s danym typom, poziciou a vlastnikom.
@@ -31,6 +33,9 @@ public abstract class Strela {
         this.hracova = jeHracova;
         this.smerPohybuX = -1;
         this.prejdenaVzdialenostX = 0;
+        this.smerPohybuY = 1;
+        this.prejdenaVzdialenostY = 0;
+
     }
 
     /**
@@ -129,6 +134,22 @@ public abstract class Strela {
 
     protected int getPrejdenaVzdialenostX() {
         return this.prejdenaVzdialenostX;
+    }
+
+    protected void zvysPrejdenuVzdialenostY(int presun) {
+        this.prejdenaVzdialenostY += presun;
+    }
+
+    protected void zmenSmerPohybuY() {
+        this.smerPohybuY *= -1;
+    }
+
+    protected int getSmerPohybuY() {
+        return this.smerPohybuY;
+    }
+
+    protected int getPrejdenaVzdialenostY() {
+        return this.prejdenaVzdialenostY;
     }
 
 
