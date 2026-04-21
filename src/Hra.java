@@ -19,11 +19,15 @@ public class Hra {
     private final Obrazok ciernePozadie;
     private final Obrazok vyhra;
     private final Obrazok prehra;
+    private final Obrazok pozadie;
+
 
     /**
      * Vytvori novu instanciu hry a inicializuje vsetky potrebne objekty a stavy.
      */
     public Hra() {
+        this.pozadie = new Obrazok("assets/pozadie.png", 0, 0);
+        this.pozadie.zobraz();
         this.manazer = new Manazer();
         this.hrac = new Hrac();
         this.boss = new Boss(this.hrac);
@@ -37,7 +41,7 @@ public class Hra {
         this.manazer.spravujObjekt(this.manazerStriel);
         this.manazer.spravujObjekt(this.manazerNepriatelov);
         this.manazer.spravujObjekt(this);
-        Obrazok predelenie = new Obrazok("assets/predelenie.png", 0, 475);
+        Obrazok predelenie = new Obrazok("assets/predelenie.png", 0, 490);
         this.start = new Obrazok("assets/start.png", 450, 289);
         this.unpause = new Obrazok("assets/unpause.png", 450, 307);
         this.restart = new Obrazok("assets/restart.png", 450, 414);
