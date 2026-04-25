@@ -1,3 +1,5 @@
+package boss;
+
 import fri.shapesge.Obdlznik;
 
 /**

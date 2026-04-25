@@ -1,7 +1,9 @@
+package strely;
+
 import fri.shapesge.Obrazok;
 
 /**
- * Trieda Strela reprezentuje strelu v hre, ktoru moze vystrelit hrac alebo boss.
+ * Trieda strely.Strela reprezentuje strelu v hre, ktoru moze vystrelit hrac alebo boss.
  * Zabezpecuje jej pohyb, spravanie a vykreslovanie.
  */
 public abstract class Strela {
@@ -35,7 +37,6 @@ public abstract class Strela {
         this.prejdenaVzdialenostX = 0;
         this.smerPohybuY = 1;
         this.prejdenaVzdialenostY = 0;
-
     }
 
     /**

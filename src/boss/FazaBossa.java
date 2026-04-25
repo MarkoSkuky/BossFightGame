@@ -1,3 +1,5 @@
+package boss;
+
 /**
  * Tato trieda reprezentuje aktualnu fazu bossa, kazda faza ma priradeny aj obrazok bossa.
  */

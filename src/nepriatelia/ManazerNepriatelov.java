@@ -1,7 +1,11 @@
+package nepriatelia;
+
+import hrac.Hrac;
+
 import java.util.ArrayList;
 
 /**
- * Trieda ManazerNepriatelov zabezpecuje spravu a aktualizaciu lietajucich nepriatelov v hre.
+ * Trieda nepriatelia.ManazerNepriatelov zabezpecuje spravu a aktualizaciu lietajucich nepriatelov v hre.
  */
 public class ManazerNepriatelov {
 

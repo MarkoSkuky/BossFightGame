@@ -1,4 +1,14 @@
+package boss;
+
 import fri.shapesge.Obrazok;
+import hrac.Hrac;
+import nepriatelia.ManazerNepriatelov;
+import pomocne.OblastPohybu;
+import strely.KlasickaStrela;
+import strely.ManazerStriel;
+import strely.Strela;
+import strely.ZigZagStrela;
+
 /**
  * Trieda boss zabezpecuje spravanie a vykreslovanie bossa
  */

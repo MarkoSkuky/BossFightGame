@@ -1,3 +1,5 @@
+package strely;
+
 public class ZigZagStrela extends Strela {
 
     /**

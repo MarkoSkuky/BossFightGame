@@ -1,3 +1,6 @@
+package app;
+
+import hra.Hra;
 
 public class Main {
 

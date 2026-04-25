@@ -1,4 +1,4 @@
-# 🎮 Boss Fight – Semestrálna práca
+# 🎮 boss.Boss Fight – Semestrálna práca
 
 Jednoduchá 2D akčná hra vytvorená ako semestrálna práca v jazyku **Java** s využitím knižnice **ShapesGE**.  
 Hráč ovláda vesmírnu loď, bojuje proti bossovi a vyhýba sa lietajúcim nepriateľom.
@@ -17,7 +17,7 @@ Hráč musí využívať:
 
 aby sa vyhol útokom a postupne bossa porazil.
 
-Hra obsahuje:
+hra.Hra obsahuje:
 - hlavné menu
 - pauzu
 - stav výhry
@@ -37,7 +37,7 @@ Hra obsahuje:
 
 ## 🧠 Herné mechaniky
 
-- Boss má **viacero fáz**, ktoré sa menia podľa počtu jeho životov
+- boss.Boss má **viacero fáz**, ktoré sa menia podľa počtu jeho životov
 - Rôzne typy striel:
   - klasická
   - zig-zag

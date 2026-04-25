@@ -1,5 +1,12 @@
+package hra;
+
+import boss.Boss;
+import efekty.ManazerEfektov;
 import fri.shapesge.Manazer;
 import fri.shapesge.Obrazok;
+import hrac.Hrac;
+import nepriatelia.ManazerNepriatelov;
+import strely.ManazerStriel;
 
 /**
  * Hlavna trieda hry, ktora riadi cely priebeh a cyklus.
@@ -10,6 +17,7 @@ public class Hra {
     private final Manazer manazer;
     private final ManazerStriel manazerStriel;
     private final ManazerNepriatelov manazerNepriatelov;
+    private final ManazerEfektov manazerEfektov;
     private final Boss boss;
     private StavHry stavHry;
     private final Obrazok start;
@@ -31,6 +39,7 @@ public class Hra {
         this.manazer = new Manazer();
         this.hrac = new Hrac();
         this.boss = new Boss(this.hrac);
+        this.manazerEfektov = new ManazerEfektov(this.hrac);
         this.manazerStriel = new ManazerStriel(this.hrac, this.boss);
         this.manazerNepriatelov = new ManazerNepriatelov(this.hrac);
         this.boss.setManazerStriel(this.manazerStriel);
@@ -40,6 +49,7 @@ public class Hra {
         this.manazer.spravujObjekt(this.boss);
         this.manazer.spravujObjekt(this.manazerStriel);
         this.manazer.spravujObjekt(this.manazerNepriatelov);
+        this.manazer.spravujObjekt(this.manazerEfektov);
         this.manazer.spravujObjekt(this);
         Obrazok predelenie = new Obrazok("assets/predelenie.png", 0, 490);
         this.start = new Obrazok("assets/start.png", 450, 289);
@@ -65,6 +75,7 @@ public class Hra {
             this.boss.tik();
             this.manazerStriel.tikStrely();
             this.manazerNepriatelov.tikNepriatelov();
+            this.manazerEfektov.tikEfektov();
             if (this.hrac.getJeMrtvy()) {
                 this.gameOver(false);
             } else if (this.boss.getJeMrtvy()) {

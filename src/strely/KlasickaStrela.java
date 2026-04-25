@@ -1,3 +1,5 @@
+package strely;
+
 public class KlasickaStrela extends Strela {
 
     /**

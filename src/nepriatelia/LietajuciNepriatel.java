@@ -1,4 +1,7 @@
+package nepriatelia;
+
 import fri.shapesge.Obrazok;
+import hrac.Hrac;
 
 import java.util.Random;
 

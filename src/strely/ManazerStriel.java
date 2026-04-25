@@ -1,7 +1,12 @@
+package strely;
+
+import boss.Boss;
+import hrac.Hrac;
+
 import java.util.ArrayList;
 
 /**
- * Trieda ManazerStriel zabezpecuje spravu hracovych a bossovych striel.
+ * Trieda strely.ManazerStriel zabezpecuje spravu hracovych a bossovych striel.
  */
 public class ManazerStriel {
 

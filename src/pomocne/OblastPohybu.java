@@ -1,5 +1,7 @@
+package pomocne;
+
 /**
- * Trieda OblastPohybu reprezentuje obmedzenu oblast, v ktorej sa moze objekt pohybovat.
+ * Trieda pomocne.OblastPohybu reprezentuje obmedzenu oblast, v ktorej sa moze objekt pohybovat.
  */
 public class OblastPohybu {
 
