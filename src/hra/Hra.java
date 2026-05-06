@@ -128,7 +128,6 @@ public class Hra {
      * Zobrazuje alebo skryva pauzove menu.
      */
     public void pauza() {
-
         if (this.stavHry == StavHry.BEZI) {
             this.stavHry = StavHry.PAUZA;
             this.ciernePozadie.zobraz();

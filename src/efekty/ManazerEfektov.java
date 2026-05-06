@@ -25,7 +25,7 @@ public class ManazerEfektov {
     public void tikEfektov() {
         if (this.spawnCooldown > 0) {
             this.spawnCooldown--;
-        } else if (this.random.nextInt(1000) < 2) {
+        } else if (this.random.nextInt(1000) < 3) {
 //            int nahodnyEfekt = this.random.nextInt(2);
 //            switch (nahodnyEfekt) {
 //                case 0: this.pridajEfekt(new ShieldEfekt());
