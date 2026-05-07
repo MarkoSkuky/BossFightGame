@@ -8,7 +8,7 @@ public class ShieldEfektPosobenie implements EfektPosobenie {
     private int trvanie;
     private Obrazok obrazokShield;
     private Hrac hrac;
-    public static final int SHIELD_OFFSET = 5;
+    public static final int SHIELD_OFFSET = 4;
 
     public ShieldEfektPosobenie(Hrac hrac) {
         this.trvanie = 250;
@@ -31,6 +31,7 @@ public class ShieldEfektPosobenie implements EfektPosobenie {
         this.obrazokShield.zmenPolohu(
             this.hrac.getLavyHitbox()  - SHIELD_OFFSET
             , this.hrac.getHornyHitbox()  - SHIELD_OFFSET);
+        this.obrazokShield.zobraz();
         this.trvanie--;
     }
 

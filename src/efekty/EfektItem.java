@@ -198,5 +198,9 @@ public abstract class EfektItem {
     protected void aktualizujPolohu() {
         this.obrazok.zmenPolohu(this.poziciaX, this.poziciaY);
     }
+
+    protected void zmenUhol(int stupne) {
+        this.obrazok.zmenUhol(stupne);
+    }
 }
 

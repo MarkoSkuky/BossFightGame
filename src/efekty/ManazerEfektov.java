@@ -25,16 +25,19 @@ public class ManazerEfektov {
     public void tikEfektov() {
         if (this.spawnCooldown > 0) {
             this.spawnCooldown--;
-        } else if (this.random.nextInt(1000) < 3) {
-//            int nahodnyEfekt = this.random.nextInt(2);
-//            switch (nahodnyEfekt) {
-//                case 0: this.pridajEfekt(new ShieldEfektItem());
-//                break;
-//                case 1: this.pridajEfekt(new SpomalenieEfektItem());
-//                break;
-//            }
-            this.pridajEfekt(new ShieldEfektItem());
-            this.spawnCooldown = 350; //4s
+        } else if (this.random.nextInt(1000) < 70) {
+            int nahodnyEfekt = this.random.nextInt(2);
+            switch (nahodnyEfekt) {
+                case 0:
+                    this.pridajEfekt(new ShieldEfektItem());
+                    break;
+                case 1:
+                    this.pridajEfekt(new SpomalenieEfektItem());
+                    break;
+                default:
+                    break;
+            }
+            this.spawnCooldown = 200;
         }
 
         if (!this.efekty.isEmpty()) {
@@ -45,6 +48,7 @@ public class ManazerEfektov {
             this.efekty.removeIf((efektItem) -> !efektItem.jeAktivny());
         }
     }
+
 
     private void koliziaEfektuSHracom(EfektItem efektItem) {
         if (efektItem.jeAktivny()

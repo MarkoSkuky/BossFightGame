@@ -7,6 +7,7 @@ import strely.KlasickaStrela;
 import strely.ManazerStriel;
 import strely.Strela;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Trieda hrac.Hrac zabezpecuje pohyb hraca, dashovanie, strelbu.
@@ -65,6 +66,7 @@ public class Hrac {
      */
     public void posunVpravo() {
         this.ideVpravo = true;
+        this.ideVlavo = false;
     }
 
     /**
@@ -72,6 +74,7 @@ public class Hrac {
      */
     public void posunVlavo() {
         this.ideVlavo = true;
+        this.ideVpravo = false;
     }
 
     /**
@@ -93,6 +96,7 @@ public class Hrac {
      */
     public void posunHore() {
         this.ideHore = true;
+        this.ideDole = false;
     }
 
     /**
@@ -100,6 +104,7 @@ public class Hrac {
      */
     public void posunDole() {
         this.ideDole = true;
+        this.ideHore = false;
     }
 
     /**
@@ -123,7 +128,7 @@ public class Hrac {
         if (this.strelaCooldown <= 0) {
             Strela strela = new KlasickaStrela(this.polohaX + this.sirkaHraca / 2 - 6, this.polohaY, true);
             this.manazerStriel.pridajStrelu(strela);
-            this.strelaCooldown = 60;
+            this.strelaCooldown = 15;
         }
     }
 
@@ -191,7 +196,6 @@ public class Hrac {
      */
     public void tik() {
         this.spravHracaNesmrtelnym();
-        this.tikEfektov();
 
         if (this.dashuje) {
             int novyX = this.polohaX + this.dashSmer * 30;
@@ -239,17 +243,24 @@ public class Hrac {
         if (this.strelaCooldown > 0) {
             this.strelaCooldown--;
         }
+        this.tikEfektov();
     }
 
     private void tikEfektov() {
-        this.aktivneEfekty.forEach(EfektPosobenie::tikEfektu);
+        Iterator<EfektPosobenie> iterator = this.aktivneEfekty.iterator();
 
-        this.aktivneEfekty.stream()
-            .filter(e -> e.getTrvanie() <= 0)
-            .forEach(EfektPosobenie::priVyprchani);
+        while (iterator.hasNext()) {
+            EfektPosobenie efekt = iterator.next();
 
-        this.aktivneEfekty.removeIf(e -> e.getTrvanie() <= 0);
+            efekt.tikEfektu();
+
+            if (efekt.getTrvanie() <= 0) {
+                efekt.priVyprchani();
+                iterator.remove();
+            }
+        }
     }
+
 
     /**
      * Zisti, ci je hrac mrtvy.

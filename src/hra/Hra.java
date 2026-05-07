@@ -61,7 +61,7 @@ public class Hra {
         predelenie.zobraz();
 
         this.stavHry = StavHry.MENU;
-        this.ciernePozadie = new Obrazok("assets/ciernePozadie.png", 0, 0);
+        this.ciernePozadie = new Obrazok("assets/menuPozadie.png", 0, -20);
         this.zobrazMenu();
     }
 
@@ -96,8 +96,12 @@ public class Hra {
                 this.skryMenu();
                 this.stavHry = StavHry.BEZI;
             }
+            if (x > 450 && x < 750 && y > 521 && y < 612) {
+                System.exit(0);
+            }
             return;
         }
+
 
         if (this.stavHry == StavHry.PAUZA) {
             if (x > 450 && x < 750 && y > 307 && y < 394) {
@@ -168,10 +172,12 @@ public class Hra {
     private void zobrazMenu() {
         this.ciernePozadie.zobraz();
         this.start.zobraz();
+        this.quit.zobraz();
     }
 
     private void skryMenu() {
         this.start.skry();
+        this.quit.skry();
         this.ciernePozadie.skry();
     }
 
