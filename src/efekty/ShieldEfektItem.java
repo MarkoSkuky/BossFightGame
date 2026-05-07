@@ -4,9 +4,9 @@ import hrac.Hrac;
 
 import java.util.Random;
 
-public class ShieldEfekt extends Efekt {
+public class ShieldEfektItem extends EfektItem {
 
-    public ShieldEfekt() {
+    public ShieldEfektItem() {
         Random random = new Random();
         super(random.nextInt(1000) + 70, -50, "assets/shieldEfekt.png", 4);
     }
@@ -27,6 +27,6 @@ public class ShieldEfekt extends Efekt {
 
     @Override
     public void aplikujEfekt(Hrac hrac) {
-        hrac.aplikujShield();
+        hrac.pridajEfektDoZoznamu(new ShieldEfektPosobenie(hrac));
     }
 }

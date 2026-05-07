@@ -1,16 +1,17 @@
 package hrac;
 
+import efekty.EfektPosobenie;
 import fri.shapesge.Obrazok;
 import pomocne.OblastPohybu;
 import strely.KlasickaStrela;
 import strely.ManazerStriel;
 import strely.Strela;
+import java.util.ArrayList;
 
 /**
  * Trieda hrac.Hrac zabezpecuje pohyb hraca, dashovanie, strelbu.
  */
 public class Hrac {
-
 
     private ManazerStriel manazerStriel;
     private int polohaX;
@@ -18,7 +19,6 @@ public class Hrac {
     private final int sirkaHraca = 90;
     private final int vyskaHraca = 90;
     private final Obrazok obrazokHraca;
-    private final Obrazok obrazokShieldu;
     private int rychlost;
     private boolean ideVlavo;
     private boolean ideVpravo;
@@ -33,10 +33,7 @@ public class Hrac {
     private int dashTimer;
     private int dashSmer;
     private boolean jeMrtvy;
-    private boolean aktivnyShield;
-
-    private static final int SHIELD_OFFSET_X = -5;
-    private static final int SHIELD_OFFSET_Y = -5;
+    private ArrayList<EfektPosobenie> aktivneEfekty;
 
     /**
      * Vytvori instanciu hraca a inicializuje pociatocne hodnoty a stavy.
@@ -47,7 +44,6 @@ public class Hrac {
         this.polohaY = 700;
         this.obrazokHraca = new Obrazok("assets/hracPredok.png", this.polohaX, this.polohaY);
         this.obrazokHraca.zobraz();
-        this.obrazokShieldu = new Obrazok("assets/shieldHracov.png", this.polohaX + SHIELD_OFFSET_X, this.polohaY + SHIELD_OFFSET_Y);
         this.oblastPohybu = new OblastPohybu(0, 1200, 500, 800);
         this.hracHpBar = new HracHpBar();
         this.nesmrtelnostCooldown = 0;
@@ -56,13 +52,12 @@ public class Hrac {
         this.dashTimer = 0;
         this.dashSmer = 0;
         this.jeMrtvy = false;
-        this.aktivnyShield = false;
         this.rychlost = 8;
         this.obrazokHraca.zmenPolohu(this.polohaX, this.polohaY);
         this.obrazokHraca.zobraz();
         this.obrazokHraca.zmenObrazok("assets/hracPredok.png");
         this.jeViditelny = true;
-        this.obrazokShieldu.skry();
+        this.aktivneEfekty = new ArrayList<>();
     }
 
     /**
@@ -166,15 +161,14 @@ public class Hrac {
     }
 
     private void spravHracaNesmrtelnym() {
+        if (this.nesmrtelnostCooldown == Integer.MAX_VALUE) {
+            return;
+        }
+
         if (this.nesmrtelnostCooldown > 0) {
             this.nesmrtelnostCooldown--;
 
-            if (this.aktivnyShield) {
-                if (!this.jeViditelny) {
-                    this.obrazokHraca.zobraz();
-                    this.jeViditelny = true;
-                }
-            } else if (this.nesmrtelnostCooldown % 10 == 0) {
+            if (this.nesmrtelnostCooldown % 10 == 0) {
                 if (this.jeViditelny) {
                     this.obrazokHraca.skry();
                     this.jeViditelny = false;
@@ -191,27 +185,13 @@ public class Hrac {
         }
     }
 
-    public void aplikujShield() {
-        final int stitNesmrtelnostTickov = 250; // 4s
-        this.nesmrtelnostCooldown = Math.max(this.nesmrtelnostCooldown, stitNesmrtelnostTickov);
-        this.aktivnyShield = true;
-    }
-
-    private void aktualizujShield() {
-        if (this.aktivnyShield && this.nesmrtelnostCooldown > 0) {
-            this.obrazokShieldu.zobraz();
-        } else {
-            this.aktivnyShield = false;
-            this.obrazokShieldu.skry();
-        }
-    }
-
     /**
      * Metoda, ktora sa vykonava pri kazdom hernom tiku.
      * Stara sa o pohyb hraca, dash, cooldowny a vykreslovanie.
      */
     public void tik() {
         this.spravHracaNesmrtelnym();
+        this.tikEfektov();
 
         if (this.dashuje) {
             int novyX = this.polohaX + this.dashSmer * 30;
@@ -259,9 +239,16 @@ public class Hrac {
         if (this.strelaCooldown > 0) {
             this.strelaCooldown--;
         }
+    }
 
-        // Shield sa ma aktualizovat az po pohybe, aby sedel na finalnej polohe hraca.
-        this.aktualizujShield();
+    private void tikEfektov() {
+        this.aktivneEfekty.forEach(EfektPosobenie::tikEfektu);
+
+        this.aktivneEfekty.stream()
+            .filter(e -> e.getTrvanie() <= 0)
+            .forEach(EfektPosobenie::priVyprchani);
+
+        this.aktivneEfekty.removeIf(e -> e.getTrvanie() <= 0);
     }
 
     /**
@@ -319,7 +306,11 @@ public class Hrac {
 
     private void zmenPolohu() {
         this.obrazokHraca.zmenPolohu(this.polohaX, this.polohaY);
-        this.obrazokShieldu.zmenPolohu(this.polohaX + SHIELD_OFFSET_X, this.polohaY + SHIELD_OFFSET_Y);
+    }
+
+    public void pridajEfektDoZoznamu(EfektPosobenie efekt) {
+        efekt.priAktivacii();
+        this.aktivneEfekty.add(efekt);
     }
 
     /**
@@ -330,7 +321,6 @@ public class Hrac {
     public void setManazerStriel(ManazerStriel manazerStriel) {
         this.manazerStriel = manazerStriel;
     }
-
     /**
      * Nastavi vsetky hodnoty a stavy hraca do pociatocneho stavu
      */
@@ -339,14 +329,34 @@ public class Hrac {
         this.polohaX = 550;
         this.polohaY = 700;
         this.obrazokHraca.zmenPolohu(this.polohaX, this.polohaY);
-        this.obrazokShieldu.zmenPolohu(this.polohaX + SHIELD_OFFSET_X, this.polohaY + SHIELD_OFFSET_Y);
-        this.obrazokShieldu.skry();
         this.nesmrtelnostCooldown = 0;
-        this.aktivnyShield = false;
+        this.ideVlavo = false;
+        this.ideVpravo = false;
+        this.ideHore = false;
+        this.ideDole = false;
         this.dashuje = false;
         this.dashTimer = 0;
         this.dashSmer = 0;
         this.jeMrtvy = false;
+        this.setRychlostNaDefault();
+        this.aktivneEfekty.forEach(e -> e.priVyprchani());
+        this.aktivneEfekty.clear();
+    }
+
+    public void setNesmrtelnost(boolean aktivna) {
+        if (aktivna) {
+            this.nesmrtelnostCooldown = Integer.MAX_VALUE;
+            if (!this.jeViditelny) {
+                this.obrazokHraca.zobraz();
+                this.jeViditelny = true;
+            }
+        } else {
+            this.nesmrtelnostCooldown = 0;
+            if (!this.jeViditelny) {
+                this.obrazokHraca.zobraz();
+                this.jeViditelny = true;
+            }
+        }
     }
 
 }

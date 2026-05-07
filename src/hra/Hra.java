@@ -180,6 +180,7 @@ public class Hra {
         this.boss.restart();
         this.manazerStriel.restart();
         this.manazerNepriatelov.restart();
+        this.manazerEfektov.restart();
         this.skryUI();
         this.ciernePozadie.skry();
         this.stavHry = StavHry.BEZI;

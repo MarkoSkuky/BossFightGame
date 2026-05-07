@@ -3,7 +3,7 @@ package efekty;
 import fri.shapesge.Obrazok;
 import hrac.Hrac;
 
-public abstract class Efekt {
+public abstract class EfektItem {
     private int poziciaX;
     private int poziciaY;
     private Obrazok obrazok;
@@ -14,7 +14,7 @@ public abstract class Efekt {
     private int prejdenaVzdialenostY;
     private boolean aktivny;
 
-    public Efekt(int poziciaX, int poziciaY, String cestaKObrazku, int rychlost) {
+    public EfektItem(int poziciaX, int poziciaY, String cestaKObrazku, int rychlost) {
         this.rychlost = rychlost;
         this.obrazok = new Obrazok(cestaKObrazku, poziciaX, poziciaY);
         this.poziciaX = poziciaX;
