@@ -25,17 +25,15 @@ public class ManazerEfektov {
     public void tikEfektov() {
         if (this.spawnCooldown > 0) {
             this.spawnCooldown--;
-        } else if (this.random.nextInt(1000) < 70) {
-            int nahodnyEfekt = this.random.nextInt(2);
-            switch (nahodnyEfekt) {
-                case 0:
-                    this.pridajEfekt(new ShieldEfektItem());
-                    break;
-                case 1:
-                    this.pridajEfekt(new SpomalenieEfektItem());
-                    break;
-                default:
-                    break;
+        } else if (this.random.nextInt(1000) < 30) {
+            int nahodnyEfekt = this.random.nextInt(100);
+            if (nahodnyEfekt < 50) {
+                this.pridajEfekt(new ShieldEfektItem());
+            } else if (nahodnyEfekt < 80) {
+                this.pridajEfekt(new SpomalenieEfektItem());
+            } else {
+                this.pridajEfekt(new HubickyEfektItem());
+                this.pridajEfekt(new HubickyEfektItem());
             }
             this.spawnCooldown = 200;
         }

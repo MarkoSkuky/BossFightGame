@@ -202,5 +202,9 @@ public abstract class EfektItem {
     protected void zmenUhol(int stupne) {
         this.obrazok.zmenUhol(stupne);
     }
+
+    protected void zmenObrazok(String cestaKObrazku) {
+        this.obrazok.zmenObrazok(cestaKObrazku);
+    }
 }
 
