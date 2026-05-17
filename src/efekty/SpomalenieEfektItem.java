@@ -4,14 +4,21 @@ import hrac.Hrac;
 
 import java.util.Random;
 
+/**
+ * Trieda reprezentuje pohyblivy item so spomalovacim efektom.
+ * Po kolizii s hracom aktivuje docasne spomalenie pohybu.
+ */
 public class SpomalenieEfektItem extends EfektItem {
 
     private int uholObrazku;
     private int smerPohybuX;
 
 
+    /**
+     * Vytvori novy spomalovaci efekt item s nahodnou poziciou.
+     */
     public SpomalenieEfektItem() {
-        super(vygenerujX() , vygenerujY(), "assets/spomalenieEfekt.png", 4);
+        super(vygenerujX(), vygenerujY(), "assets/spomalenieEfekt.png", 4);
         if (this.getPravyHitbox() < 500) {
             this.smerPohybuX = 1;
         } else {
@@ -20,6 +27,10 @@ public class SpomalenieEfektItem extends EfektItem {
         this.uholObrazku = 0;
     }
 
+    /**
+     * Vykona logiku efektu pri jednom hernom tiku.
+     * Zabezpecuje horizontalny aj vertikalny pohyb, rotaciu obrazku a deaktivaciu mimo obrazovky.
+     */
     @Override
     public void tik() {
         if (!this.jeAktivny()) {
@@ -46,6 +57,11 @@ public class SpomalenieEfektItem extends EfektItem {
     }
 
 
+    /**
+     * Aplikuje spomalenie na hraca.
+     *
+     * @param hrac hrac, na ktoreho sa efekt aplikuje
+     */
     @Override
     public void aplikujEfekt(Hrac hrac) {
         hrac.pridajEfektDoZoznamu(new SpomalenieEfektPosobenie(hrac));

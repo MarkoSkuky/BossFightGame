@@ -1,7 +1,13 @@
 package efekty;
+
 import hrac.Hrac;
+
 import java.util.Random;
 
+/**
+ * Trieda reprezentuje padajuci hubickovy efekt item.
+ * Po zobrati hracom aktivuje docasne posobenie, ktore invertuje ovladanie.
+ */
 public class HubickyEfektItem extends EfektItem {
 
     private static final String[] ZOZNAM_OBRAZKOV = {
@@ -16,11 +22,18 @@ public class HubickyEfektItem extends EfektItem {
     private static final int ANIMACIA_DELAY = 8;
 
 
+    /**
+     * Vytvori novy hubickovy efekt item na nahodnej Xovej pozicii a s nahodnou rychlostou padu.
+     */
     public HubickyEfektItem() {
         super(vygenerujX(), -100, "assets/hubicky/hubickyEfektItem1.png", vygenerujRychlost());
     }
 
 
+    /**
+     * Vykona logiku efektu v jednom hernom tiku.
+     * Stara sa o animaciu blikania, pohyb nadol a deaktivaciu mimo hernej plochy.
+     */
     @Override
     public void tik() {
         if (!this.jeAktivny()) {
@@ -36,6 +49,11 @@ public class HubickyEfektItem extends EfektItem {
         }
     }
 
+    /**
+     * Aplikuje efekt na hraca pridanim hubickoveho posobenia do zoznamu aktivnych efektov.
+     *
+     * @param hrac hrac, na ktoreho sa efekt aplikuje
+     */
     @Override
     public void aplikujEfekt(Hrac hrac) {
         hrac.pridajEfektDoZoznamu(new HubickyEfektPosobenie(hrac));

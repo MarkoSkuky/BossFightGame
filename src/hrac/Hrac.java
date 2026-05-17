@@ -7,6 +7,7 @@ import utils.OblastPohybu;
 import strely.KlasickaStrela;
 import strely.ManazerStriel;
 import strely.Strela;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -63,6 +64,7 @@ public class Hrac implements Collidable {
         this.aktivneEfekty = new ArrayList<>();
         this.invertovanyPohyb = false;
     }
+
     /**
      * Zacne pohyb hraca doprava.
      */
@@ -350,10 +352,18 @@ public class Hrac implements Collidable {
         return this.polohaY + this.vyskaHraca;
     }
 
+    /**
+     * Nastavi aktualnu rychlost pohybu hraca.
+     *
+     * @param rychlost nova rychlost pohybu hraca
+     */
     public void setRychlost(int rychlost) {
         this.rychlost = rychlost;
     }
 
+    /**
+     * Nastavi rychlost hraca na predvolenu hodnotu.
+     */
     public void setRychlostNaDefault() {
         this.rychlost = 8;
     }
@@ -362,11 +372,21 @@ public class Hrac implements Collidable {
         this.obrazokHraca.zmenPolohu(this.polohaX, this.polohaY);
     }
 
+    /**
+     * Prida efekt do zoznamu aktivnych efektov hraca a okamzite ho aktivuje.
+     *
+     * @param efekt efektove posobenie, ktore sa ma aplikovat na hraca
+     */
     public void pridajEfektDoZoznamu(EfektPosobenie efekt) {
         efekt.priAktivacii();
         this.aktivneEfekty.add(efekt);
     }
 
+    /**
+     * Zapne alebo vypne invertovanie pohybu hraca.
+     *
+     * @param b true pre invertovane ovladanie, false pre normalne ovladanie
+     */
     public void setInvertovanyPohyb(boolean b) {
         this.invertovanyPohyb = b;
     }
@@ -379,6 +399,7 @@ public class Hrac implements Collidable {
     public void setManazerStriel(ManazerStriel manazerStriel) {
         this.manazerStriel = manazerStriel;
     }
+
     /**
      * Nastavi vsetky hodnoty a stavy hraca do pociatocneho stavu
      */
@@ -401,6 +422,12 @@ public class Hrac implements Collidable {
         this.aktivneEfekty.clear();
     }
 
+    /**
+     * Zapne alebo vypne nesmrtelnost hraca.
+     * Pri zapnuti nastavi neobmedzenu nesmrtelnost, pri vypnuti ju zrusi.
+     *
+     * @param aktivna true pre aktivnu nesmrtelnost, false pre vypnutie nesmrtelnosti
+     */
     public void setNesmrtelnost(boolean aktivna) {
         if (aktivna) {
             this.nesmrtelnostCooldown = Integer.MAX_VALUE;

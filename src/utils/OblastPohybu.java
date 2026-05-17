@@ -13,7 +13,7 @@ public class OblastPohybu {
     /**
      * Vytvori novu oblast pohybu so zadanymi hranicami.
      *
-     * @param lavyOkraj lavy okraj oblasti
+     * @param lavyOkraj  lavy okraj oblasti
      * @param pravyOkraj pravy okraj oblasti
      * @param hornyOkraj horny okraj oblasti
      * @param dolnyOkraj dolny okraj oblasti

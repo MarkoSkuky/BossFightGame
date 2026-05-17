@@ -6,6 +6,10 @@ import utils.ManazerKolizii;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Trieda spravuje spawn, aktualizaciu a kolizie efektovych itemov v hre.
+ * Zabezpecuje aj ich odstranenie a reset pri restarte hry.
+ */
 public class ManazerEfektov {
     private final Hrac hrac;
     private final ArrayList<EfektItem> efekty;
@@ -13,6 +17,11 @@ public class ManazerEfektov {
     private int spawnCooldown;
     private ManazerKolizii manazerKolizii;
 
+    /**
+     * Vytvori novy manazer efektov pre daneho hraca.
+     *
+     * @param hrac referencia na hraca
+     */
     public ManazerEfektov(Hrac hrac) {
         this.hrac = hrac;
         this.efekty = new ArrayList<>();
@@ -25,6 +34,10 @@ public class ManazerEfektov {
         this.efekty.add(efektItem);
     }
 
+    /**
+     * Vykona logiku manazera efektov pri jednom hernom tiku.
+     * Stara sa o spawn novych efektov, ich pohyb, kolizie s hracom a vycistenie neaktivnych efektov.
+     */
     public void tikEfektov() {
         if (this.spawnCooldown > 0) {
             this.spawnCooldown--;
@@ -56,6 +69,10 @@ public class ManazerEfektov {
         }
     }
 
+    /**
+     * Resetuje manazer efektov do pociatocneho stavu.
+     * Skryje vsetky aktivne efekty, vycisti ich zoznam a vynuluje spawn cooldown.
+     */
     public void restart() {
         for (EfektItem efektItem : this.efekty) {
             efektItem.skryObrazok();

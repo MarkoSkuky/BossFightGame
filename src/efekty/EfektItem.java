@@ -4,6 +4,10 @@ import fri.shapesge.Obrazok;
 import hrac.Hrac;
 import utils.Collidable;
 
+/**
+ * Abstraktna trieda reprezentujuca item (efekt), ktory sa rozne pohybuje,
+ * hrac ked ho zoberie tak sa nanho aplikuje efekt.
+ */
 public abstract class EfektItem implements Collidable {
     private int poziciaX;
     private int poziciaY;
@@ -15,6 +19,14 @@ public abstract class EfektItem implements Collidable {
     private int prejdenaVzdialenostY;
     private boolean aktivny;
 
+    /**
+     * Vytvori novy efekt na zadanej pozicii s obrazkom a rychlostou pohybu po hernej mape.
+     *
+     * @param poziciaX      pociatocna X suradnica efektu
+     * @param poziciaY      pociatocna Y suradnica efektu
+     * @param cestaKObrazku cesta k obrazku efektu
+     * @param rychlost      rychlost pohybu efektu
+     */
     public EfektItem(int poziciaX, int poziciaY, String cestaKObrazku, int rychlost) {
         this.rychlost = rychlost;
         this.obrazok = new Obrazok(cestaKObrazku, poziciaX, poziciaY);
@@ -28,8 +40,16 @@ public abstract class EfektItem implements Collidable {
         this.prejdenaVzdialenostY = 0;
     }
 
+    /**
+     * Vykona logiku efektu pri jednom hernom tiku.
+     */
     public abstract void tik();
 
+    /**
+     * Aplikuje ucinok efektu na hraca.
+     *
+     * @param hrac hrac, na ktoreho sa efekt aplikuje
+     */
     public abstract void aplikujEfekt(Hrac hrac);
 
     /**
@@ -200,14 +220,27 @@ public abstract class EfektItem implements Collidable {
         return this.prejdenaVzdialenostY;
     }
 
+    /**
+     * Aktualizuje polohu obrazku efektu podla aktualnych suradnic.
+     */
     protected void aktualizujPolohu() {
         this.obrazok.zmenPolohu(this.poziciaX, this.poziciaY);
     }
 
+    /**
+     * Nastavi natocenie obrazku efektu.
+     *
+     * @param stupne uhol natocenia v stupnoch
+     */
     protected void zmenUhol(int stupne) {
         this.obrazok.zmenUhol(stupne);
     }
 
+    /**
+     * Zmeni obrazok efektu na novy subor.
+     *
+     * @param cestaKObrazku cesta k novemu obrazku
+     */
     protected void zmenObrazok(String cestaKObrazku) {
         this.obrazok.zmenObrazok(cestaKObrazku);
     }

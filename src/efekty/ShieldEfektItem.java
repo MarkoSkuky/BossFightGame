@@ -4,13 +4,23 @@ import hrac.Hrac;
 
 import java.util.Random;
 
+/**
+ * Trieda reprezentuje padajuci item so shield efektom.
+ * Po kolizii s hracom aktivuje docasnu nesmrtelnost.
+ */
 public class ShieldEfektItem extends EfektItem {
 
+    /**
+     * Vytvori novy shield efekt item na nahodnej Xovej pozicii.
+     */
     public ShieldEfektItem() {
-        Random random = new Random();
         super(vygenerujX(), -50, "assets/shieldEfekt.png", 4);
     }
 
+    /**
+     * Vykona logiku shield efekt itemu v jednom hernom tiku.
+     * Stara sa o pohyb nadol a deaktivaciu po opusteni hernej plochy.
+     */
     @Override
     public void tik() {
         if (!this.jeAktivny()) {
@@ -25,6 +35,11 @@ public class ShieldEfektItem extends EfektItem {
         }
     }
 
+    /**
+     * Aplikuje shield posobenie na hraca.
+     *
+     * @param hrac hrac, na ktoreho sa efekt aplikuje
+     */
     @Override
     public void aplikujEfekt(Hrac hrac) {
         hrac.pridajEfektDoZoznamu(new ShieldEfektPosobenie(hrac));

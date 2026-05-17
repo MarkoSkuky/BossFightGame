@@ -37,7 +37,7 @@ public class BossHpBar {
      * a aktualizuje sirku HP baru.
      */
     public void uberZivoty() {
-        this.hp -= 100;
+        this.hp -= 40;
         if (this.hp <= 0) {
             this.hp = 0;
         }
