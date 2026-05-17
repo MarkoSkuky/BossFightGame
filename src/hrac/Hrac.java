@@ -2,7 +2,8 @@ package hrac;
 
 import efekty.EfektPosobenie;
 import fri.shapesge.Obrazok;
-import pomocne.OblastPohybu;
+import utils.Collidable;
+import utils.OblastPohybu;
 import strely.KlasickaStrela;
 import strely.ManazerStriel;
 import strely.Strela;
@@ -12,7 +13,7 @@ import java.util.Iterator;
 /**
  * Trieda hrac.Hrac zabezpecuje pohyb hraca, dashovanie, strelbu.
  */
-public class Hrac {
+public class Hrac implements Collidable {
 
     private ManazerStriel manazerStriel;
     private int polohaX;
@@ -34,6 +35,7 @@ public class Hrac {
     private int dashTimer;
     private int dashSmer;
     private boolean jeMrtvy;
+    private boolean invertovanyPohyb;
     private ArrayList<EfektPosobenie> aktivneEfekty;
 
     /**
@@ -59,67 +61,104 @@ public class Hrac {
         this.obrazokHraca.zmenObrazok("assets/hracPredok.png");
         this.jeViditelny = true;
         this.aktivneEfekty = new ArrayList<>();
+        this.invertovanyPohyb = false;
     }
-
     /**
      * Zacne pohyb hraca doprava.
      */
     public void posunVpravo() {
-        this.ideVpravo = true;
-        this.ideVlavo = false;
+        if (this.invertovanyPohyb) {
+            this.ideVlavo = true;
+            this.ideVpravo = false;
+        } else {
+            this.ideVpravo = true;
+            this.ideVlavo = false;
+        }
     }
 
     /**
      * Zacne pohyb hraca dolava;
      */
     public void posunVlavo() {
-        this.ideVlavo = true;
-        this.ideVpravo = false;
+        if (this.invertovanyPohyb) {
+            this.ideVpravo = true;
+            this.ideVlavo = false;
+        } else {
+            this.ideVlavo = true;
+            this.ideVpravo = false;
+        }
     }
 
     /**
      * Ukonci pohyb hraca doprava.
      */
     public void uvolniVpravo() {
-        this.ideVpravo = false;
+        if (this.invertovanyPohyb) {
+            this.ideVlavo = false;
+        } else {
+            this.ideVpravo = false;
+        }
     }
 
     /**
      * Ukonci pohyb hraca dolava.
      */
     public void uvolniVlavo() {
-        this.ideVlavo = false;
+        if (this.invertovanyPohyb) {
+            this.ideVpravo = false;
+        } else {
+            this.ideVlavo = false;
+        }
     }
 
     /**
      * Zacne pohyb hraca hore.
      */
     public void posunHore() {
-        this.ideHore = true;
-        this.ideDole = false;
+        if (this.invertovanyPohyb) {
+            this.ideDole = true;
+            this.ideHore = false;
+        } else {
+            this.ideHore = true;
+            this.ideDole = false;
+        }
     }
 
     /**
      * Zacne pohyb hraca dole.
      */
     public void posunDole() {
-        this.ideDole = true;
-        this.ideHore = false;
+        if (this.invertovanyPohyb) {
+            this.ideHore = true;
+            this.ideDole = false;
+        } else {
+            this.ideDole = true;
+            this.ideHore = false;
+        }
     }
 
     /**
      * Ukonci pohyb hraca hore.
      */
     public void uvolniHore() {
-        this.ideHore = false;
+        if (this.invertovanyPohyb) {
+            this.ideDole = false;
+        } else {
+            this.ideHore = false;
+        }
     }
 
     /**
      * Ukonci pohyb hraca dole.
      */
     public void uvolniDole() {
-        this.ideDole = false;
+        if (this.invertovanyPohyb) {
+            this.ideHore = false;
+        } else {
+            this.ideDole = false;
+        }
     }
+
 
     /**
      * Vystreli strelu ak uz nema cooldown na strielanie.
@@ -276,6 +315,7 @@ public class Hrac {
      *
      * @return X-ova suradnica laveho hitboxu
      */
+    @Override
     public int getLavyHitbox() {
         return this.polohaX;
     }
@@ -285,6 +325,7 @@ public class Hrac {
      *
      * @return X-ova suradnica praveho hitboxu
      */
+    @Override
     public int getPravyHitbox() {
         return this.polohaX + this.sirkaHraca;
     }
@@ -294,6 +335,7 @@ public class Hrac {
      *
      * @return Y-ova suradnica horneho hitboxu
      */
+    @Override
     public int getHornyHitbox() {
         return this.polohaY;
     }
@@ -303,6 +345,7 @@ public class Hrac {
      *
      * @return Y-ova suradnica dolneho hitboxu
      */
+    @Override
     public int getDolnyHitbox() {
         return this.polohaY + this.vyskaHraca;
     }
@@ -322,6 +365,10 @@ public class Hrac {
     public void pridajEfektDoZoznamu(EfektPosobenie efekt) {
         efekt.priAktivacii();
         this.aktivneEfekty.add(efekt);
+    }
+
+    public void setInvertovanyPohyb(boolean b) {
+        this.invertovanyPohyb = b;
     }
 
     /**

@@ -1,4 +1,4 @@
-package pomocne;
+package utils;
 
 /**
  * Trieda pomocne.OblastPohybu reprezentuje obmedzenu oblast, v ktorej sa moze objekt pohybovat.

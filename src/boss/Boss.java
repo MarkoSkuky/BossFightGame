@@ -3,7 +3,8 @@ package boss;
 import fri.shapesge.Obrazok;
 import hrac.Hrac;
 import nepriatelia.ManazerNepriatelov;
-import pomocne.OblastPohybu;
+import utils.Collidable;
+import utils.OblastPohybu;
 import strely.KlasickaStrela;
 import strely.ManazerStriel;
 import strely.Strela;
@@ -12,7 +13,7 @@ import strely.ZigZagStrela;
 /**
  * Trieda boss zabezpecuje spravanie a vykreslovanie bossa
  */
-public class Boss {
+public class Boss implements Collidable {
     private int polohaX;
     private int polohaY;
     private final int sirkaBossa = 110;
@@ -193,6 +194,7 @@ public class Boss {
      *
      * @return aktualnu suradnicu X laveho hitboxu
      */
+    @Override
     public int getLavyHitbox() {
         return this.polohaX;
     }
@@ -202,6 +204,7 @@ public class Boss {
      *
      * @return aktualnu suradnicu X praveho hitboxu
      */
+    @Override
     public int getPravyHitbox() {
         return this.polohaX + this.sirkaBossa;
     }
@@ -211,6 +214,7 @@ public class Boss {
      *
      * @return aktualnu suradnicu Y horneho hitboxu
      */
+    @Override
     public int getHornyHitbox() {
         return this.polohaY;
     }
@@ -220,6 +224,7 @@ public class Boss {
      *
      * @return aktualnu suradnicu Y dolneho hitboxu
      */
+    @Override
     public int getDolnyHitbox() {
         return this.polohaY + this.vyskaBossa;
     }

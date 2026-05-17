@@ -2,8 +2,9 @@ package efekty;
 
 import fri.shapesge.Obrazok;
 import hrac.Hrac;
+import utils.Collidable;
 
-public abstract class EfektItem {
+public abstract class EfektItem implements Collidable {
     private int poziciaX;
     private int poziciaY;
     private Obrazok obrazok;
@@ -36,6 +37,7 @@ public abstract class EfektItem {
      *
      * @return Y suradnicu dolneho hitboxu efektu
      */
+    @Override
     public int getDolnyHitbox() {
         return this.poziciaY + 50;
     }
@@ -45,6 +47,7 @@ public abstract class EfektItem {
      *
      * @return Y suradnicu horneho hitboxu efektu
      */
+    @Override
     public int getHornyHitbox() {
         return this.poziciaY;
     }
@@ -54,6 +57,7 @@ public abstract class EfektItem {
      *
      * @return X suradnicu laveho hitboxu
      */
+    @Override
     public int getLavyHitbox() {
         return this.poziciaX;
     }
@@ -63,6 +67,7 @@ public abstract class EfektItem {
      *
      * @return X suradnicu praveho hitboxu s offsetom
      */
+    @Override
     public int getPravyHitbox() {
         return this.poziciaX + 50;
     }

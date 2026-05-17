@@ -17,8 +17,28 @@ public class HubickyEfektItem extends EfektItem {
 
 
     public HubickyEfektItem() {
-        Random random = new Random();
-        super(random.nextInt(100, 1150), -100, "assets/hubicky/hubickyEfektItem1.png", random.nextInt(4));
+        super(vygenerujX(), -100, "assets/hubicky/hubickyEfektItem1.png", vygenerujRychlost());
+    }
+
+
+    @Override
+    public void tik() {
+        if (!this.jeAktivny()) {
+            return;
+        }
+
+        this.animaciaHubicky();
+        this.posunY(this.getRychlost());
+        this.aktualizujPolohu();
+
+        if (this.getHornyHitbox() >= 830) {
+            this.deaktivuj();
+        }
+    }
+
+    @Override
+    public void aplikujEfekt(Hrac hrac) {
+        hrac.pridajEfektDoZoznamu(new HubickyEfektPosobenie(hrac));
     }
 
     private void animaciaHubicky() {
@@ -38,27 +58,16 @@ public class HubickyEfektItem extends EfektItem {
             this.obrazokIndex = 0;
             this.smerAnimacie = 1;
         }
-
         this.zmenObrazok(ZOZNAM_OBRAZKOV[this.obrazokIndex]);
     }
 
-    @Override
-    public void tik() {
-        if (!this.jeAktivny()) {
-            return;
-        }
-
-        this.animaciaHubicky();
-        this.posunY(this.getRychlost());
-        this.aktualizujPolohu();
-
-        if (this.getHornyHitbox() >= 830) {
-            this.deaktivuj();
-        }
+    private static int vygenerujX() {
+        Random random = new Random();
+        return random.nextInt(100, 1150);
     }
 
-    @Override
-    public void aplikujEfekt(Hrac hrac) {
-        hrac.pridajEfektDoZoznamu(new HubickyEfektPosobenie());
+    private static int vygenerujRychlost() {
+        Random random = new Random();
+        return random.nextInt(4) + 1;
     }
 }

@@ -2,13 +2,14 @@ package nepriatelia;
 
 import fri.shapesge.Obrazok;
 import hrac.Hrac;
+import utils.Collidable;
 
 import java.util.Random;
 
 /**
  * Trieda reprezentuje lietajuceho nepriatela, ktory najde hraca a spadne nanho.
  */
-public class LietajuciNepriatel {
+public class LietajuciNepriatel implements Collidable {
     private int rychlost;
     private int poziciaX;
     private int poziciaY;
@@ -104,6 +105,7 @@ public class LietajuciNepriatel {
      *
      * @return suradnica X laveho hitboxu
      */
+    @Override
     public int getLavyHitbox() {
         return this.poziciaX;
     }
@@ -113,6 +115,7 @@ public class LietajuciNepriatel {
      *
      * @return suradnica X praveho hitboxu
      */
+    @Override
     public int getPravyHitbox() {
         return this.poziciaX + 90;
     }
@@ -122,6 +125,7 @@ public class LietajuciNepriatel {
      *
      * @return suradnica Y horneho hitboxu
      */
+    @Override
     public int getHornyHitbox() {
         return this.poziciaY;
     }
@@ -131,6 +135,7 @@ public class LietajuciNepriatel {
      *
      * @return suradnica Y dolneho hitboxu
      */
+    @Override
     public int getDolnyHitbox() {
         return this.poziciaY + 90;
     }

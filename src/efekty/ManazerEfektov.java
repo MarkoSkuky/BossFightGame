@@ -1,6 +1,7 @@
 package efekty;
 
 import hrac.Hrac;
+import utils.ManazerKolizii;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,12 +11,14 @@ public class ManazerEfektov {
     private final ArrayList<EfektItem> efekty;
     private final Random random;
     private int spawnCooldown;
+    private ManazerKolizii manazerKolizii;
 
     public ManazerEfektov(Hrac hrac) {
         this.hrac = hrac;
         this.efekty = new ArrayList<>();
         this.random = new Random();
         this.spawnCooldown = 0;
+        this.manazerKolizii = new ManazerKolizii();
     }
 
     private void pridajEfekt(EfektItem efektItem) {
@@ -25,14 +28,13 @@ public class ManazerEfektov {
     public void tikEfektov() {
         if (this.spawnCooldown > 0) {
             this.spawnCooldown--;
-        } else if (this.random.nextInt(1000) < 30) {
+        } else if (this.random.nextInt(1000) < 100) {
             int nahodnyEfekt = this.random.nextInt(100);
             if (nahodnyEfekt < 50) {
                 this.pridajEfekt(new ShieldEfektItem());
             } else if (nahodnyEfekt < 80) {
                 this.pridajEfekt(new SpomalenieEfektItem());
             } else {
-                this.pridajEfekt(new HubickyEfektItem());
                 this.pridajEfekt(new HubickyEfektItem());
             }
             this.spawnCooldown = 200;
@@ -47,13 +49,8 @@ public class ManazerEfektov {
         }
     }
 
-
     private void koliziaEfektuSHracom(EfektItem efektItem) {
-        if (efektItem.jeAktivny()
-            && efektItem.getPravyHitbox() > this.hrac.getLavyHitbox()
-            && efektItem.getLavyHitbox() < this.hrac.getPravyHitbox()
-            && efektItem.getDolnyHitbox() > this.hrac.getHornyHitbox()
-            && efektItem.getHornyHitbox() < this.hrac.getDolnyHitbox()) {
+        if (efektItem.jeAktivny() && this.manazerKolizii.kolizia(efektItem, this.hrac)) {
             efektItem.aplikujEfekt(this.hrac);
             efektItem.deaktivuj();
         }

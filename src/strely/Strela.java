@@ -1,12 +1,13 @@
 package strely;
 
 import fri.shapesge.Obrazok;
+import utils.Collidable;
 
 /**
  * Trieda strely.Strela reprezentuje strelu v hre, ktoru moze vystrelit hrac alebo boss.
  * Zabezpecuje jej pohyb, spravanie a vykreslovanie.
  */
-public abstract class Strela {
+public abstract class Strela implements Collidable {
     private int poziciaX;
     private int poziciaY;
     private Obrazok obrazok;
@@ -69,6 +70,7 @@ public abstract class Strela {
      *
      * @return Y suradnicu dolneho hitboxu strely
      */
+    @Override
     public int getDolnyHitbox() {
         return this.poziciaY + 20;
     }
@@ -78,8 +80,19 @@ public abstract class Strela {
      *
      * @return Y suradnicu horneho hitboxu strely
      */
+    @Override
     public int getHornyHitbox() {
         return this.poziciaY;
+    }
+
+    @Override
+    public int getLavyHitbox() {
+        return this.poziciaX;
+    }
+
+    @Override
+    public int getPravyHitbox() {
+        return this.poziciaX + 25;
     }
 
     /**

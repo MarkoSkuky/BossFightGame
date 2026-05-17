@@ -11,16 +11,8 @@ public class SpomalenieEfektItem extends EfektItem {
 
 
     public SpomalenieEfektItem() {
-        Random random = new Random();
-        int nahodnyFaktor = random.nextInt(2);
-        int x;
-        if (nahodnyFaktor == 0) {
-            x = -100;
-        } else {
-            x = 1300;
-        }
-        super(x , random.nextInt(490, 720), "assets/spomalenieEfekt.png", 4);
-        if (nahodnyFaktor == 0) {
+        super(vygenerujX() , vygenerujY(), "assets/spomalenieEfekt.png", 4);
+        if (this.getPravyHitbox() < 500) {
             this.smerPohybuX = 1;
         } else {
             this.smerPohybuX = -1;
@@ -57,5 +49,15 @@ public class SpomalenieEfektItem extends EfektItem {
     @Override
     public void aplikujEfekt(Hrac hrac) {
         hrac.pridajEfektDoZoznamu(new SpomalenieEfektPosobenie(hrac));
+    }
+
+    private static int vygenerujX() {
+        Random random = new Random();
+        return random.nextBoolean() ? -100 : 1300;
+    }
+
+    private static int vygenerujY() {
+        Random random = new Random();
+        return random.nextInt(490, 720);
     }
 }

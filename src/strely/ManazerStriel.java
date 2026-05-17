@@ -2,6 +2,7 @@ package strely;
 
 import boss.Boss;
 import hrac.Hrac;
+import utils.ManazerKolizii;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ public class ManazerStriel {
     private ArrayList<Strela> bossoveStrely;
     private Boss boss;
     private Hrac hrac;
+    private ManazerKolizii manazerKolizii;
 
     /**
      * Vytvori manazer striel a referenciu na hraca a bossa.
@@ -26,6 +28,7 @@ public class ManazerStriel {
         this.bossoveStrely = new ArrayList<>();
         this.boss = boss;
         this.hrac = hrac;
+        this.manazerKolizii = new ManazerKolizii();
     }
 
     /**
@@ -59,11 +62,7 @@ public class ManazerStriel {
     }
 
     private void koliziaHracovejStrely(Strela strela) {
-        if (strela.jeHracova()
-            && strela.getPoziciaX() > this.boss.getLavyHitbox()
-            && strela.getPoziciaX() < this.boss.getPravyHitbox()
-            && strela.getHornyHitbox() < this.boss.getDolnyHitbox()
-            && strela.getDolnyHitbox() > this.boss.getHornyHitbox()) {
+        if (strela.jeHracova() && this.manazerKolizii.kolizia(strela, this.boss)) {
             strela.setAktivna(false);
             strela.skryObrazok();
             this.boss.uberZivoty();
@@ -71,11 +70,7 @@ public class ManazerStriel {
     }
 
     private void koliziaBossovejStrely(Strela strela) {
-        if (!strela.jeHracova()
-            && strela.getPoziciaX() > this.hrac.getLavyHitbox()
-            && strela.getPoziciaX() < this.hrac.getPravyHitbox()
-            && strela.getHornyHitbox() < this.hrac.getDolnyHitbox()
-            && strela.getDolnyHitbox() > this.hrac.getHornyHitbox()) {
+        if (!strela.jeHracova() && this.manazerKolizii.kolizia(strela, this.hrac)) {
             strela.setAktivna(false);
             strela.skryObrazok();
             this.hrac.uberZivoty();

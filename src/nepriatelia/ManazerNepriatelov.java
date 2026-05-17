@@ -1,6 +1,7 @@
 package nepriatelia;
 
 import hrac.Hrac;
+import utils.ManazerKolizii;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ public class ManazerNepriatelov {
 
     private final Hrac hrac;
     private final ArrayList<LietajuciNepriatel> lietajuciNepriatelia;
+    private ManazerKolizii manazerKolizii;
 
     /**
      * Vytvori manazer nepriatelov.
@@ -20,6 +22,7 @@ public class ManazerNepriatelov {
     public ManazerNepriatelov(Hrac hrac) {
         this.hrac = hrac;
         this.lietajuciNepriatelia = new ArrayList<>();
+        this.manazerKolizii = new ManazerKolizii();
     }
 
     /**
@@ -47,11 +50,7 @@ public class ManazerNepriatelov {
     }
 
     private void koliziaNepriatelaSHracom(LietajuciNepriatel n) {
-        if (n.getJeAktivny()
-            && n.getPravyHitbox() > this.hrac.getLavyHitbox()
-            && n.getLavyHitbox() < this.hrac.getPravyHitbox()
-            && n.getDolnyHitbox() > this.hrac.getHornyHitbox()
-            && n.getHornyHitbox() < this.hrac.getDolnyHitbox()) {
+        if (n.getJeAktivny() && this.manazerKolizii.kolizia(n, this.hrac)) {
             n.skry();
             this.hrac.uberZivoty();
         }

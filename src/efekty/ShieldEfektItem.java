@@ -8,7 +8,7 @@ public class ShieldEfektItem extends EfektItem {
 
     public ShieldEfektItem() {
         Random random = new Random();
-        super(random.nextInt(1000) + 70, -50, "assets/shieldEfekt.png", 4);
+        super(vygenerujX(), -50, "assets/shieldEfekt.png", 4);
     }
 
     @Override
@@ -28,5 +28,10 @@ public class ShieldEfektItem extends EfektItem {
     @Override
     public void aplikujEfekt(Hrac hrac) {
         hrac.pridajEfektDoZoznamu(new ShieldEfektPosobenie(hrac));
+    }
+
+    private static int vygenerujX() {
+        Random random = new Random();
+        return random.nextInt(100, 1150);
     }
 }
